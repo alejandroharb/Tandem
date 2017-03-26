@@ -1,0 +1,29 @@
+{
+  "name": "Grow-With-Friends",
+  "version": "1.0.1",
+  "main": "server.js",
+  "repository": "git@github.com:alejandroharb/Grow-With-Friends.git",
+  "author": "alejandro, raul, jorge",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.1",
+    "firebase": "^3.7.2",
+    "firebase-admin": "^4.1.1",
+    "geocoder": "^0.2.2",
+    "geojson": "^0.4.1",
+    "google-distance": "^1.0.1",
+    "handlebars": "^4.0.6",
+    "moment": "^2.17.1",
+    "multer": "^1.3.0",
+    "mv": "^2.1.1",
+    "mysql": "^2.13.0",
+    "path": "^0.12.7",
+    "sequelize": "^3.30.2",
+    "tmp": "^0.0.31",
+    "yelp": "^1.0.2"
+  }
+}
