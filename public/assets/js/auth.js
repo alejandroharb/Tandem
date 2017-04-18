@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    //initialize modal
+    $('.modal').modal();
     //================Loggin in==================
     $('#logInBtn').on('click', function (e) {
         e.preventDefault();
@@ -69,7 +71,8 @@ $(document).ready(function () {
             data,
             success: function (data, textStatus, xhr) {
                 if (xhr.status === 200) {
-                  console.log("successful data transfer!")
+                  console.log("successful data transfer");
+                  console.log(xhr.status);
                     $('#createProfileModal').modal('open');
                 } else {
                     console.log(data)
@@ -99,7 +102,14 @@ $(document).ready(function () {
             success: function (data, textStatus, xhr) {
                 if (xhr.status === 200) {
                     var key = userName;
-                    window.location.href = '/api/auth/home/' + key
+                    var url = '/api/auth/user/authenticate';
+                    $.ajax({
+                        method: 'POST',
+                        url: url,
+                        data: { uid: key }
+                    }).then(function (response) {
+                        window.location.href = '/api/auth/home/' + key;
+                    });
                 } else {
                     console.log(data)
                     alert("Oops! Error in processing data. Working on fixing this. Sorry!");
