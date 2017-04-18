@@ -5,19 +5,16 @@ var app = express();
 var path = require('path');
 var bodyParser = require("body-parser");
 var multer = require('multer')
+
 //sessions middleware
 const session = require('express-session');
-// app.use(session({
-//     secret: "boiling kettle",
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: false }
-// }));
-// session middleware
-app.use(session({secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-  cookie: { secure: false }}));
+app.use(session({
+    secret: "boiling kettle",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
 //file upload middleware
 var mv = require('mv');
 

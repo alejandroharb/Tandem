@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
     //================Loggin in==================
     $('#logInBtn').on('click', function (e) {
@@ -16,9 +15,9 @@ $(document).ready(function () {
             .then(function (response) {
                 console.log(response);
                 console.log("user signed in!")
-                var key = response.uid;
-                console.log("key is here: " + key)
-                window.location.href = '/api/auth/home/' + key;
+                // var key = response.uid;
+                // console.log("key is here: " + key)
+                // window.location.href = '/api/auth/home/' + key;
             })
             .catch(function (error) {
                 // Handle Errors here.
@@ -31,6 +30,23 @@ $(document).ready(function () {
                 }
                 console.log(error);
             });
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                console.log(user.uid);
+                // User is signed in.
+                var url = '/api/auth/user/authenticate';
+                $.ajax({
+                    method: 'POST',
+                    url: url,
+                    data: {
+                        uid: user.uid
+                    }
+                }).then(function (response) {
+                    window.location.href = '/api/auth/home/' + user.uid;
+
+                });
+            };
+        });
     });
     //============Creating new User==============
     $('#newUserSubmit').on('click', function (e) {
@@ -77,12 +93,12 @@ $(document).ready(function () {
         };
         $.ajax({
             type: "POST",
-            url: '/new-profile',
+            url: '/api/auth/new-profile',
             data,
             success: function (data, textStatus, xhr) {
                 if (xhr.status === 200) {
                     var key = userName;
-                    window.location.href = '/home/' + key
+                    window.location.href = '/api/auth/home/' + key
                 } else {
                     console.log(data)
                     alert("Oops! Error in processing data. Working on fixing this. Sorry!");
@@ -97,63 +113,57 @@ $(document).ready(function () {
         window.location.href = '/create-user';
     })
     $('#googleSignIn').on('click', function () {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        
         console.log("clicked google func!")
-        googleSignIn();
+        firebase.auth().signInWithPopup(provider).then(function (result) {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            // ...
+            console.log("========hey im inside-------");
+        }).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+        });
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                console.log(user.uid);
+                // User is signed in.
+                var url = '/api/auth/user/authenticate';
+                $.ajax({
+                    method: 'POST',
+                    url: url,
+                    data: {
+                        uid: user.uid
+                    }
+                }).then(function (response) {
+                    window.location.href = '/api/auth/home/' + user.uid;
+
+                });
+            };
+        });
     })
     $('#userSignOut').on('click', function () {
         userSignOut();
     })
 });
 
+
 function googleSignIn() {
     console.log("inside this google signin func!")
-    //firebase popup google sign in function
-    firebase.auth().signInWithPopup(provider).then(function (result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        console.log(user)
-    }).catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-    });
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          console.log(user.uid);
-            // User is signed in.
-            var url = '/api/auth/user/authenticate';
-            $.ajax({
-                method: 'POST',
-                url: url,
-                data: { uid: user.uid }
-            }).then(function (response) {
-                window.location.href = '/api/auth/home/' + user.uid;
+    //firebase popup google sign in functio
 
-            });
-        };
-    });
+
 };
-// function checkAuthStatus() {
-//     firebase.auth().onAuthStateChanged(function (user) {
-//         if (user) {
-//             // User is signed in.
-//             var url = '/user/authenticate';
-//             $.ajax({
-//                 method: 'POST',
-//                 url: url,
-//                 data: { uid: user.uid }
-//             }).then(function (response) {
-//                 window.location.href = '/home/' + user.uid;
-//             });
-//         };
-//     });
-// }
+
 function userSignOut() {
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
@@ -161,11 +171,11 @@ function userSignOut() {
     }).catch(function (error) {
         // An error happened.
         console.log(error);
-        });
+    });
     firebase.auth().onAuthStateChanged(function (user) {
         if (!user) {
-            // User is signed in.
-            var url = '/user/authenticate/signout';
+            // User is not signed in.
+            var url = './../user/authenticate/signout';
             $.ajax({
                 method: 'GET',
                 url: url,

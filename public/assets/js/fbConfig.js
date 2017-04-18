@@ -7,4 +7,5 @@ var config = ({
 });
 
 firebase.initializeApp(config);
-var provider = new firebase.auth.GoogleAuthProvider();
+
+

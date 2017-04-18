@@ -2,35 +2,42 @@ const router = require('express').Router();
 const express = require('express');
 const app = express();
 const admin = require("firebase-admin");
-const firebase = require('./../config/firebaseConfig.js');
-const Model = require('../models');
+// const firebase = require('./../config/firebaseConfig.js');
+const Models = require('../models');
 const geocoder = require('geocoder');
+
+var serviceAccount = require("./../config/tandem-firebase-adminsdk-mjp7f-3725497d83.json"); //currently with firebase for Grow-with-Friends until migration
+//initialize firebase Admin
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "grow-with-friends.firebaseapp.com"
+});
 
 
 
 const authController = {
   firebaseCreateUser: (req, res) => {
-    console.log(req.body)
-    const data = req.body;
     admin.auth().createUser({
-        uid: data.username,
-        email: data.email,
+        uid: req.body.username,
+        email: req.body.email,
         emailVerified: false,
-        password: data.password,
+        password: req.body.password,
         disabled: false
       })
-      .then((userRecord) => {
+      .then(function (userRecord) {
+        // See the UserRecord reference doc for the contents of userRecord.
+        console.log("Successfully created new user:", userRecord.uid);
         res.sendStatus(200);
       })
-      .catch((error) => {
-        res.send(error)
-      })
+      .catch(function (error) {
+        console.log("Error creating new user:", error);
+      });
   },
 
   createProfile: (req, res) => {
     var data = req.body;
     //---!!!refactor this code!!!---
-    var city = geocoder.geocode(data.address, function(err, data) {
+    var city = geocoder.geocode(data.address, function (err, data) {
       var locData = data.results[0].address_components;
       for (var i = 0; i < locData.length; i++) {
         if (locData[i].types[0] === "locality") {
@@ -51,7 +58,7 @@ const authController = {
         image: "blank-person.png",
         description: data.description
       }
-    }).spread(function(user, created) {
+    }).spread(function (user, created) {
       //check to see if it exists already
       //redirect user to main page
       // console.log("created: " + created);
@@ -68,6 +75,7 @@ const authController = {
   },
 
   setSession: (req, res) => {
+    console.log("user id for setting session")
     console.log(req.body.uid);
     req.session.uid = req.body.uid;
     console.log("Setting session uid ", req.session.uid);
@@ -77,25 +85,34 @@ const authController = {
   signOutUser: (req, res) => {
     console.log("destroying session for signing out")
     req.session.destroy(function (err) {
-        console.log(err)
-        res.end();
+      console.log(err)
+      res.end();
     });
   },
 
   logInUser: (req, res) => {
     console.log("I should get the session id here ", req.session.uid);
     if (req.session.uid === req.params.id) { //security: checking session match
-        console.log("user has been authenticated");
-        //---adding image source for displaying----
-        var userData = {};
-        //----query data for this specific profile-----
-        Model.User.findOne({ where: { user_name: req.params.id } })
-            .then(function (response) {
-                userData.basicInfo = response.dataValues;
-                res.render('user-home', { info: userData });
-            })
+      console.log("user has been authenticated");
+      //---adding image source for displaying----
+      var userData = {};
+      //----query data for this specific profile-----
+      Models.User.findOne({
+          where: {
+            user_name: req.params.id
+          }
+        })
+        .then(function (response) {
+          userData.basicInfo = response.dataValues;
+          res.render('user-home', {
+            info: userData
+          });
+        })
     } else {
-        res.render("unauthorized", {title:"Unauthorized Access Page", layout: "front-page"});
+      res.render("unauthorized", {
+        title: "Unauthorized Access Page",
+        layout: "front-page"
+      });
     }
   }
 }
