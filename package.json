@@ -1,9 +1,9 @@
 {
-  "name": "Grow-With-Friends",
+  "name": "Tandem",
   "version": "1.0.1",
   "main": "server.js",
-  "repository": "git@github.com:alejandroharb/Grow-With-Friends.git",
-  "author": "alejandro, raul, jorge",
+  "repository": "git@github.com:alejandroharb/Tandem.git",
+  "author": "alejandro",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.16.1",

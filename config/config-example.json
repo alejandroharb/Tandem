@@ -1,0 +1,20 @@
+{
+  "development": {
+    "username": "root",
+    "password": "<database_password>",
+    "database": "DB_NAME",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "mysql82011",
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "use_env_variable": "<Server_DB>",
+    "dialect": "mysql"
+  }
+}

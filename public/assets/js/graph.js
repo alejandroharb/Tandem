@@ -1,13 +1,13 @@
 $(document).ready(function() {
 $('.collapsible').collapsible();
-  var config = {
-    apiKey: "AIzaSyBAWx3ZLy8j86QkkL3kq3R92T7S1XE8mgg",
-    authDomain: "<grow-with-friends.firebaseapp.com",
-    databaseURL: "https://grow-with-friends.firebaseio.com",
-    storageBucket: "<grow-with-friends.appspot.com",
-  };
+//   var config = {
+//     apiKey: "AIzaSyBAWx3ZLy8j86QkkL3kq3R92T7S1XE8mgg",
+//     authDomain: "<grow-with-friends.firebaseapp.com",
+//     databaseURL: "https://grow-with-friends.firebaseio.com",
+//     storageBucket: "<grow-with-friends.appspot.com",
+//   };
 
-  firebase.initializeApp(config);
+//   firebase.initializeApp(config);
   var database = firebase.database();
 
 // on window load, userName from window path, golf is initial activity

@@ -6,13 +6,18 @@ var path = require('path');
 var bodyParser = require("body-parser");
 var multer = require('multer')
 //sessions middleware
-var session = require('express-session');
-app.use(session({
-    secret: "boiling kettle",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
+const session = require('express-session');
+// app.use(session({
+//     secret: "boiling kettle",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false }
+// }));
+// session middleware
+app.use(session({secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: false }}));
 //file upload middleware
 var mv = require('mv');
 
@@ -35,11 +40,6 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 // Static directory
 app.use(express.static("./public"));
-//session middleware
-app.use(session({secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-  cookie: { secure: false }}));
 
 //==========importing routes=============
 // require('./routes/api-auth-routes.js')(app);

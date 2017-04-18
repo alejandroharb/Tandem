@@ -1,7 +1,6 @@
-'use strict';
-
+const authController = require('./../controllers/authController.js');
 const router = require('express').Router();
-const authController = require('../controllers/authController.js');
+
 
 //==========creating new user account==========
 router.post('/sign-up', (req, res) => {
@@ -14,15 +13,16 @@ router.post('/new-profile', (req,res) => {
 });
 
 //============set/destroy USER session===========
-router.post('user/authenticate', (req, res) => {
-  authController.setSession(req,res);
+router.post('/user/authenticate', (req, res) => {
+  authController.setSession(req, res);
 });
-router.get('user/authenticate/signout', (req, res) => {
+router.get('/user/authenticate/signout', (req, res) => {
   authController.signOutUser(req, res);
 });
 
 //=============Route User Home + Authenticate credentials with Session==============
-router.post('home/:id', (req, res) => {
+router.get('/home/:id', (req, res) => {
+  console.log("inside api/auth/home/:id");
   authController.logInUser(req, res);
 });
 

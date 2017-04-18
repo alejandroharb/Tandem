@@ -1,12 +1,16 @@
-'use strict';
-
+const router = require('express').Router();
+const express = require('express');
+const app = express();
 const admin = require("firebase-admin");
 const firebase = require('./../config/firebaseConfig.js');
 const Model = require('../models');
 const geocoder = require('geocoder');
 
+
+
 const authController = {
   firebaseCreateUser: (req, res) => {
+    console.log(req.body)
     const data = req.body;
     admin.auth().createUser({
         uid: data.username,
@@ -64,6 +68,7 @@ const authController = {
   },
 
   setSession: (req, res) => {
+    console.log(req.body.uid);
     req.session.uid = req.body.uid;
     console.log("Setting session uid ", req.session.uid);
     res.end();

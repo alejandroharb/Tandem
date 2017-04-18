@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     //================Loggin in==================
     $('#logInBtn').on('click', function (e) {
@@ -17,7 +18,7 @@ $(document).ready(function () {
                 console.log("user signed in!")
                 var key = response.uid;
                 console.log("key is here: " + key)
-                window.location.href = '/api/home/' + key;
+                window.location.href = '/api/auth/home/' + key;
             })
             .catch(function (error) {
                 // Handle Errors here.
@@ -48,7 +49,7 @@ $(document).ready(function () {
         //ajax POST for sending data to server
         $.ajax({
             type: "POST",
-            url: '/sign-up',
+            url: '/api/auth/sign-up',
             data,
             success: function (data, textStatus, xhr) {
                 if (xhr.status === 200) {
@@ -96,20 +97,23 @@ $(document).ready(function () {
         window.location.href = '/create-user';
     })
     $('#googleSignIn').on('click', function () {
+        console.log("clicked google func!")
         googleSignIn();
     })
     $('#userSignOut').on('click', function () {
         userSignOut();
     })
 });
-var provider = new firebase.auth.GoogleAuthProvider();
+
 function googleSignIn() {
+    console.log("inside this google signin func!")
     //firebase popup google sign in function
     firebase.auth().signInWithPopup(provider).then(function (result) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
+        console.log(user)
     }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;

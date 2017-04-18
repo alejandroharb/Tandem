@@ -1,7 +1,7 @@
 var admin = require("firebase-admin");
 var firebase = require('firebase');
 
-var serviceAccount = require("./Grow-with-Friends-firebaseServiceAccountKey.json");
+var serviceAccount = require("./tandem-firebase-adminsdk-mjp7f-3725497d83.json"); //currently with firebase for Grow-with-Friends until migration
 //initialize firebase Admin
 var admin = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),

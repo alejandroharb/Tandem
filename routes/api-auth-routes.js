@@ -3,7 +3,7 @@
 // var geocoder = require('geocoder');
 // var admin = require("firebase-admin");
 // var firebase = require('./../config/firebaseConfig.js');
-//
+
 // module.exports = function (app) {
 //     //==========creating new user account==========
 //     app.post("/sign-up", function (req, res) {
@@ -69,9 +69,9 @@
 //         var data = req.body;
 //         var email = data.email;
 //         var password = data.password;
-//
+
 //         var uid = email;
-//
+
 //         admin.auth().createCustomToken(uid)
 //             .then(function (customToken) {
 //                 // Send token back to client
