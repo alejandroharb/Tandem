@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('.modal').modal();
     // Initialize collapse button
     $(".button-collapse").sideNav();
-    
+
     $('#updateProfileModal').on('click', function () {
         $('#updateProfile').modal('open');
     })
@@ -31,7 +31,7 @@ $(document).ready(function () {
             year_experience: years,
             experience_rating: rating
         }
-        var url = '/api/choices/golf/' + username;
+        var url = '/api/home/choices/golf/' + username;
         // console.log(url)
         //AJAX POST
         $.post(url, data, function (response) {
@@ -53,12 +53,12 @@ $(document).ready(function () {
             year_experience: years,
             experience_rating: rating
         }
-        var url = '/api/choices/guitar/' + username;
+        var url = '/api/home/choices/guitar/' + username;
         // console.log(url)
         //AJAX POST
         $.post(url, data, function (response) {
             // console.log(response);
             Materialize.toast("Saved", 3000);
         })
-    }); 
+    });
 });

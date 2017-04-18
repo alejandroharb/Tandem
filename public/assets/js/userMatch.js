@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    //=================GETTING MATCHED===================
+    //=================GETTING MATCHED (OPTIONS)===================
     $('#getMatchedBtn').on('click', function () {
         var username = $('#user_name').attr('value');
         $.ajax({

@@ -17,7 +17,7 @@ $(document).ready(function () {
                 console.log("user signed in!")
                 var key = response.uid;
                 console.log("key is here: " + key)
-                window.location.href = '/home/' + key;
+                window.location.href = '/api/home/' + key;
             })
             .catch(function (error) {
                 // Handle Errors here.
@@ -121,14 +121,16 @@ function googleSignIn() {
     });
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
+          console.log(user.uid);
             // User is signed in.
-            var url = '/user/authenticate';
+            var url = '/api/auth/user/authenticate';
             $.ajax({
                 method: 'POST',
                 url: url,
                 data: { uid: user.uid }
             }).then(function (response) {
-                window.location.href = '/home/' + user.uid;
+                window.location.href = '/api/auth/home/' + user.uid;
+
             });
         };
     });

@@ -1,13 +1,11 @@
-//import npm dependencies
+'use strict';
+// Dependencies
 var express = require('express');
+var app = express();
 var path = require('path');
 var bodyParser = require("body-parser");
-var app = express();
-var router = express.Router();
 var multer = require('multer')
-//requiring environment variables
-// require('dotenv').load(); !!!currently not being used
-//authentication session middleware
+//sessions middleware
 var session = require('express-session');
 app.use(session({
     secret: "boiling kettle",
@@ -44,14 +42,18 @@ app.use(session({secret: 'keyboard cat',
   cookie: { secure: false }}));
 
 //==========importing routes=============
-require('./routes/api-auth-routes.js')(app);
+// require('./routes/api-auth-routes.js')(app);
 require('./routes/html-routes.js')(app);
-require('./routes/api-home-routes.js')(app);
+// require('./routes/api-home-routes.js')(app);
 require('./routes/pictures.js')(app);
-require('./routes/api-matching-routes.js')(app);
-require('./routes/yelp-routes.js')(app);
+// require('./routes/api-matching-routes.js')(app);
+// require('./routes/yelp-routes.js')(app);
 require('./routes/scores-routes.js')(app);
 
+const routes = require('./routes');
+for (let route in routes){
+  app.use(route, routes[route]);
+}
 
 db.sequelize.sync().then(function () {
     app.listen(PORT, function () {
