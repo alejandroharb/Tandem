@@ -6,7 +6,7 @@ const admin = require("firebase-admin");
 const Models = require('../models');
 const geocoder = require('geocoder');
 
-var serviceAccount = require("./../config/tandem-firebase-adminsdk-mjp7f-3725497d83.json"); //currently with firebase for Grow-with-Friends until migration
+var serviceAccount = require("./../config/Grow-with-Friends-firebaseServiceAccountKey.json"); //currently with firebase for Grow-with-Friends until migration
 //initialize firebase Admin
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

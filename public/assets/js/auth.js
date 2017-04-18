@@ -69,6 +69,7 @@ $(document).ready(function () {
             data,
             success: function (data, textStatus, xhr) {
                 if (xhr.status === 200) {
+                  console.log("successful data transfer!")
                     $('#createProfileModal').modal('open');
                 } else {
                     console.log(data)
@@ -112,45 +113,7 @@ $(document).ready(function () {
     $('#unauthSignUpRedirect').on('click', function () {
         window.location.href = '/create-user';
     })
-    $('#googleSignIn').on('click', function () {
-        var provider = new firebase.auth.GoogleAuthProvider();
-        
-        console.log("clicked google func!")
-        firebase.auth().signInWithPopup(provider).then(function (result) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            // ...
-            console.log("========hey im inside-------");
-        }).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-        });
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                console.log(user.uid);
-                // User is signed in.
-                var url = '/api/auth/user/authenticate';
-                $.ajax({
-                    method: 'POST',
-                    url: url,
-                    data: {
-                        uid: user.uid
-                    }
-                }).then(function (response) {
-                    window.location.href = '/api/auth/home/' + user.uid;
-
-                });
-            };
-        });
-    })
+    $('#googleSignIn').on('click', googleSignIn)
     $('#userSignOut').on('click', function () {
         userSignOut();
     })
@@ -160,7 +123,39 @@ $(document).ready(function () {
 function googleSignIn() {
     console.log("inside this google signin func!")
     //firebase popup google sign in functio
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      console.log(result.user);
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            console.log(user.uid);
+            // User is signed in.
+            var url = '/api/auth/user/authenticate';
+            $.ajax({
+                method: 'POST',
+                url: url,
+                data: {
+                    uid: user.uid
+                }
+            }).then(function (response) {
+                window.location.href = '/api/auth/home/' + user.uid;
 
+            });
+        };
+    });
 
 };
 
