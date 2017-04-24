@@ -121,6 +121,41 @@ const craftsController = {
             });
         });
       });
+  },
+
+  addCraft: (req, res) => {
+    Models.User
+      .findOne({
+        where: {
+          user_name: username
+        }
+      })
+      .then((response) => {
+        //function uses geocoder to convert user's address into a city
+        helpers.findCity(req.body, response.dataValues.address, (city) => {
+          //--- database save craft----
+          db.Craft.create({
+            UserId: response.dataValues.id,
+            user_name: req.params.user,
+            craft: req.params.craft,
+            year_experience: data.year_experience,
+            experience_rating: data.experience_rating,
+            city: city
+          }).then(function(data) {
+            res.json(data); // send saved data back to front-end
+          });
+        })
+      })
+  },
+
+  fetchModal: (req, res) => {
+    let craft = req.params.craft;
+    console.log("parameter send: " + craft);
+    res.render("partials/addCraftModalPartial",{
+        craft, 
+        layout: false
+      }
+    );
   }
 }
 

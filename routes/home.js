@@ -4,7 +4,7 @@ const userController = require('../controllers/userController.js');
 
 //============USER SELECTS THEIR SKILLS==============
 router.post('/choices/:craft/:user', (req, res) => {
-  userController.addCraft(req, res);
+  craftController.addCraft(req, res);
 });
 
 router.post('/choices/options/:user', (req, res) => {

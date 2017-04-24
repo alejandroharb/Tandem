@@ -76,6 +76,7 @@ jspm_packages
 
 node_modules
 config/config.json
+config/fbServiceAccountConfig.js
 config/firebase.js
 config/Grow-with-Friends-firebaseServiceAccountKey.json
 config/tandem-firebase-adminsdk-mjp7f-3725497d83.json

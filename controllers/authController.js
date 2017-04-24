@@ -2,11 +2,12 @@ const router = require('express').Router();
 const express = require('express');
 const app = express();
 const admin = require("firebase-admin");
+const serviceAccount = require('./../config/fbServiceAccountConfig.js');
 // const firebase = require('./../config/firebaseConfig.js');
 const Models = require('../models');
 const geocoder = require('geocoder');
 
-var serviceAccount = require("./../config/Grow-with-Friends-firebaseServiceAccountKey.json"); //currently with firebase for Grow-with-Friends until migration
+
 //initialize firebase Admin
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
