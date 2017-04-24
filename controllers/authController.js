@@ -36,6 +36,8 @@ const authController = {
 
   createProfile: (req, res) => {
     var data = req.body;
+    console.log("creating profile");
+    console.log(data);
     //---!!!refactor this code!!!---
     var city = geocoder.geocode(data.address, function (err, data) {
       var locData = data.results[0].address_components;
@@ -62,6 +64,7 @@ const authController = {
       //check to see if it exists already
       //redirect user to main page
       // console.log("created: " + created);
+      console.log(created)
       if (created) {
         console.log("user data created!")
         console.log(created)

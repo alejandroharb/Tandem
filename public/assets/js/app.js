@@ -7,17 +7,12 @@ $(document).ready(function () {
     $('#updateProfileModal').on('click', function () {
         $('#updateProfile').modal('open');
     })
-    // =============== USER Setting Skills===================
-    $('#setSkillsBtn').on('click', function () {
-        $('#setSkillsModal').modal('open');
+    // =============== USER Set Craft===================
+    $('#showCrafts').on('click', function () {
+        $('#setCraftModal').modal('open');
     })
-    $('#addGolfSkillBtn').on('click', function () {
-        $('#addGolfSkillsDataModal').modal('open');
-    })
-    $('#addGuitarSkillBtn').on('click', function () {
-        $('#addGuitarSkillsDataModal').modal('open');
-    })
-    //==============SENDING GOLF SKILL DATA=====================
+    //==============SENDING SKILL DATA=====================
+
     $("#submitGolfSkillData").on('click', function (e) {
         e.preventDefault();
         //collect data

@@ -10,7 +10,7 @@ var multer = require('multer')
 const session = require('express-session');
 app.use(session({
     secret: "boiling kettle",
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: { secure: false }
 }));

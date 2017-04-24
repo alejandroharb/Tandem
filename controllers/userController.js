@@ -14,7 +14,7 @@ const yelp = new Yelp({
 
 const userController = {
   fetchOptions: (req, res) => {
-    console.log("username: " + req.params.user)
+    console.log(" fetching craft options for => ", req.params.user);
     db.User.findOne({
         where: {
           user_name: req.params.user
@@ -22,6 +22,8 @@ const userController = {
         include: [db.Craft]
       })
       .then(function(dbUser) {
+
+        console.log(dbUser);
         res.render("partials/craftUserProgressPartial", {
           crafts: dbUser.Crafts,
           layout: false

@@ -95,8 +95,10 @@ $(document).ready(function () {
             address: address,
             description: description
         };
+        console.log("submitting new user profile");
+        console.log(data);
         $.ajax({
-            type: "POST",
+            method: "POST",
             url: '/api/auth/new-profile',
             data,
             success: function (data, textStatus, xhr) {
@@ -123,7 +125,10 @@ $(document).ready(function () {
     $('#unauthSignUpRedirect').on('click', function () {
         window.location.href = '/create-user';
     })
-    $('#googleSignIn').on('click', googleSignIn)
+    $('#googleSignIn').on('click', (e) => {
+      e.preventDefault();
+      googleSignIn();
+    })
     $('#userSignOut').on('click', function () {
         userSignOut();
     })

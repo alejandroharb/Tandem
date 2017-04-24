@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('#getMatchedBtn').on('click', function () {
         var username = $('#user_name').attr('value');
         $.ajax({
-            url: '/crafts/match/options/' + username,
+            url: '/api/crafts/match/options/' + username,
             method: 'GET'
         }).then(function (response) {
             $('#craftOptionsModal').empty();
