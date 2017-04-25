@@ -104,10 +104,11 @@ const authController = {
       Models.User.findOne({
           where: {
             user_name: req.params.id
-          }
+          },
+            include: [Models.Craft] //include all user's crafts
         })
-        .then(function (response) {
-          userData.basicInfo = response.dataValues;
+        .then(function (dbUser) {
+          userData.basicInfo = dbUser.dataValues;
           res.render('user-home', {
             info: userData
           });

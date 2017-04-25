@@ -31,62 +31,30 @@
 
 				<!-- =============COLLAPSIBLE POPOUT===holds individual collapsibles============= -->
 				<ul class="collapsible popout" data-collapsible="accordion">
-					<!-- =======GOLF======= -->
-					<li>
-						<div id="golfCollapsible" class="collapsible-header getChartData active" data-activity="golf" value="golf"><i class="material-icons">golf_course</i><span class="fontCollapsible">Golf</span>
-							<span class="fontGrowth">Score Growth: &nbsp;<span class="golfTotalScore"></span></span>
-						</div>
-						<!-- =======BODY for BUTTONS======= -->
-						<!-- =======BODY for CHART======= -->
-						<div class="collapsible-body chartDiv golfChartDiv">
-							<canvas class="chartArea golfCanvas" height="300" width="580"></canvas>
-						</div>
-					</li>
 
-					<!-- =======GUITAR======= -->
-					<li>
-						<div id="guitarCollapsible" class="collapsible-header getChartData" data-activity="guitar" value="guitar"><i class="material-icons">music_note</i><span class="fontCollapsible">Guitar</span>
-							<span class="fontGrowth">Hours Growth: &nbsp;<span class="guitarTotalScore"></span></span>
-						</div>
-						<!-- =======BODY for BUTTONS======= -->
-						<div class="collapsible-body">
-							<div class="row tight-top-spacing">
-								<div class="col s6">
-									<a class=" btn cummulative waves-effect waves-light" data-activity="guitar"><i class="material-icons">trending_up</i>Cummulative</a>
-								</div>
-								<div class="col s6">
-									<a class=" btn dayCreated waves-effect waves-light" data-activity="guitar"><i class="material-icons">assessment</i>Bar Graph</a>
+					{{#each info.basicInfo.Crafts}}
+						<li>
+							<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData active" data-activity="{{this.craft}}" value="{{this.craft}}"><i class="material-icons">golf_course</i><span class="fontCollapsible">{{this.craft}}</span>
+								<span class="fontGrowth">Score Growth: &nbsp;<span class="golfTotalScore"></span></span>
+							</div>
+							<!-- =======BODY for BUTTONS======= -->
+							<div class="collapsible-body">
+								<div class="row tight-top-spacing">
+									<div class="col s6">
+										<a class=" btn cummulative waves-effect waves-light" data-activity="{{this.craft}}"><i class="material-icons">trending_up</i>Cummulative</a>
+									</div>
+									<div class="col s6">
+										<a class=" btn dayCreated waves-effect waves-light" data-activity="{{this.craft}}"><i class="material-icons">assessment</i>Bar Graph</a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<!-- =======BODY for CHART======= -->
-						<div class="collapsible-body chartDiv guitarChartDiv">
-							<canvas class="chartArea" height="300" width="580"></canvas>
-						</div>
-					</li>
-
-					<!-- =======LANG======= -->
-					<li>
-						<div id="langCollapsible" class="collapsible-header getChartData tertiaryC" data-activity="lang" value="lang"><i class="material-icons">translate</i><span class="fontCollapsible">Español</span>
-							<span class="fontGrowth">Hours Growth: &nbsp;<span class="langTotalScore"></span></span>
-
-						</div>
-						<!-- =======BODY for BUTTONS======= -->
-						<div class="collapsible-body">
-							<div class="row tight-top-spacing">
-								<div class="col s6">
-									<a class="btn cummulative waves-effect waves-light" data-activity="lang"><i class="material-icons">trending_up</i>Cummulative</a>
-								</div>
-								<div class="col s6">
-									<a class="btn dayCreated waves-effect waves-light" data-activity="lang"><i class="large material-icons">assessment</i>Bar Graph</a>
-								</div>
+							<!-- =======BODY for CHART======= -->
+							<div class="collapsible-body chartDiv {{this.craft}}ChartDiv">
+								<canvas class="chartArea {{this.craft}}Canvas" height="300" width="580"></canvas>
 							</div>
-						</div>
-						<!-- =======BODY for CHART======= -->
-						<div class="collapsible-body chartDiv langChartDiv">
-							<canvas class="chartArea" height="300" width="580"></canvas>
-						</div>
-					</li>
+						</li>
+					{{/each}}
+
 				</ul>
 			</div>
 		</div>
