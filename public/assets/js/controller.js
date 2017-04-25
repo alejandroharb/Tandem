@@ -23,8 +23,8 @@ let display_Craft_Add_Modal = (craft, username) => {
 
 }
 
-let handle_Add_Craft_Submit = () => {
-    // e.preventDefault();
+let handle_Add_Craft_Submit = (e) => {
+    e.preventDefault();
     //collect data
     let username = $('#username').val();
     let years = parseInt($('#YearsExperience').val());
@@ -34,14 +34,9 @@ let handle_Add_Craft_Submit = () => {
         year_experience: years,
         experience_rating: rating
     }
-    console.log(clientPostData);
     let url = '/api/home/choices/' + craft + '/' + username;
-    console.log("ajax url: " + url)
     //AJAX POST
     $.post(url, clientPostData, function (response) {
-        console.log("-ajax response from server-")
-        console.log(response);
         Materialize.toast("Saved", 3000);
     });
-    return false;
 }
