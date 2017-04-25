@@ -30,7 +30,7 @@ const craftsController = {
       .then(function(data) {
         var address = data.dataValues.address
         //use geocode function with callback to find city synchronously
-        helpers.findCity(address, () => {
+        helpers.findCity(data, address, () => {
           Models.Craft.findAll({
               where: [{
                 city: city
@@ -124,22 +124,27 @@ const craftsController = {
   },
 
   addCraft: (req, res) => {
+    let clientPostData = req.body;
+    console.log('----client post data----');
+    console.log(clientPostData);
     Models.User
       .findOne({
         where: {
-          user_name: username
+          user_name: req.params.user
         }
       })
       .then((response) => {
+        console.log("----address----");
+        console.log(response.dataValues.address);
         //function uses geocoder to convert user's address into a city
-        helpers.findCity(req.body, response.dataValues.address, (city) => {
+        helpers.findCity(clientPostData, response.dataValues.address, (city) => {
           //--- database save craft----
-          db.Craft.create({
+          Models.Craft.create({
             UserId: response.dataValues.id,
             user_name: req.params.user,
             craft: req.params.craft,
-            year_experience: data.year_experience,
-            experience_rating: data.experience_rating,
+            year_experience: clientPostData.year_experience,
+            experience_rating: clientPostData.experience_rating,
             city: city
           }).then(function(data) {
             res.json(data); // send saved data back to front-end
@@ -149,10 +154,13 @@ const craftsController = {
   },
 
   fetchModal: (req, res) => {
-    let craft = req.params.craft;
-    console.log("parameter send: " + craft);
+    let userCraftData = {
+      craft: req.params.craft,
+      username: req.params.username
+    }
+    console.log(userCraftData);
     res.render("partials/addCraftModalPartial",{
-        craft, 
+        userData: userCraftData,
         layout: false
       }
     );

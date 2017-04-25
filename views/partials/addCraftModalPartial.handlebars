@@ -1,11 +1,13 @@
-<div id="setCraft_{{craft}}" class="modal bottom-sheet">
+<div id="setCraft_{{userData.craft}}" class="modal bottom-sheet">
 	<div class="modal-content">
 		<div class="container">
 			<div class="row">
 				<div class="col s12">
 					<h4 class="center-align">{{craft}}</h4>
 					<hr>
-					<form class="row" onSubmmit="handle_Add_Craft_Submit(e)">
+					<form class="row" >
+						<input	type="hidden" id="craft" value="{{userData.craft}}" />
+						<input	type="hidden" id="username" value="{{userData.username}}" />
 						<div class="col s6">
 							<h5>Years of Experience</h5>
 							<p class="range-field">
@@ -27,12 +29,10 @@
 								<label for="rating3">Expert</label>
 							</p>
 						</div>
+						<button onclick="handle_Add_Craft_Submit()" class="modal-action modal-close btn btn-large waves-effect waves-light orange">Submit</button>
 					</form>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="modal-footer">
-		<button type="submit" class="modal-action modal-close btn btn-large waves-effect waves-light orange">Submit</button>
 	</div>
 </div>
