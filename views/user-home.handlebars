@@ -4,7 +4,7 @@
 			<div class="user-wrapper wrappers">
 				<img src="/uploads/images/{{info.basicInfo.image}}" class="responsive-img circle userImg">
 				<h2 class="center-align userTitle"> {{info.basicInfo.first_name}} {{info.basicInfo.last_name}}</h2>
-				<div id="user_name" value={{info.basicInfo.user_name}}></div>
+				<div id="user_name" data-user={{info.basicInfo.user_name}}></div>
 				<p class="userDescription center-align">{{info.basicInfo.description}}</p>
 				<div class="row">
 					<a href="#" data-activates="slide-out" class="button-collapse btn menuBtn"><i class="material-icons medium">menu</i></a>
@@ -34,9 +34,9 @@
 
 					{{#each info.basicInfo.Crafts}}
 						<li>
-							<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData active" data-activity="{{this.craft}}" value="{{this.craft}}"><i class="material-icons">golf_course</i><span class="fontCollapsible">{{this.craft}}</span>
-								<span class="fontGrowth">Score Growth: &nbsp;<span class="golfTotalScore"></span></span>
-							</div>
+								<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData active" data-activity="{{this.craft}}" data-user={{info.basicInfo.user_name}} value="{{this.craft}}"><i class="material-icons">golf_course</i><span class="fontCollapsible">{{this.craft}}</span>
+									<span class="fontGrowth">Score Growth: &nbsp;<span class="golfTotalScore"></span></span>
+								</div>
 							<!-- =======BODY for BUTTONS======= -->
 							<div class="collapsible-body">
 								<div class="row tight-top-spacing">

@@ -1,4 +1,4 @@
-var db = require('../models');
+var Models = require('../models');
 var moment = require('moment');
 // ===========FIREBASE============
 var admin = require("firebase-admin");
@@ -25,11 +25,11 @@ module.exports = function (app) {
         //writing into database at specific reference
         ref.set(score);
         //writing database general activity of all users
-        db.User.findOne({ where: { user_name: username } })
-            .then(function (response) {
+        Models.User.findOne({ where: { user_name: username } })
+            .then(function (dbUser) {
 
-                var name = response.first_name;
-                var image = response.image;
+                var name = dbUser.first_name;
+                var image = dbUser.image;
 
                 if (skill === "golf") {
                     userActivity = name + " just added a golf score of " + data.score + "!";
@@ -81,7 +81,7 @@ module.exports = function (app) {
 
             // user activity for graph
             var dataActivity = [dateArray, activity, scoreArray, sumScore, emptyLabels]
-
+            console.log(dataActivity);
             res.send(dataActivity);
         });
     });
