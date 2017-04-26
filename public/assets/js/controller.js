@@ -40,3 +40,21 @@ let handle_Add_Craft_Submit = (e) => {
         Materialize.toast("Saved", 3000);
     });
 }
+
+let createChart = (context, configs) => {
+    return new Chart(context, configs)
+}
+
+let getChartData = (user) => {
+
+  $.ajax({
+    method: 'GET',
+    url: '/api/scores/crafts/' + user
+  }).then((craftArr) => {
+    console.log(craftArr);
+    craftArr.forEach((elem, index) => {
+      
+    })
+
+  })
+}

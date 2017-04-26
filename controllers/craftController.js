@@ -4,9 +4,10 @@ const Models = require('../models');
 const router = require('express').Router();
 const helpers = require('./helpers');
 const distance = require('google-distance');
+const scoreConstroller = require('./scoreController');
 
 const craftsController = {
-  fetchUserCrafts: (req, res) => {
+  fetchCraftMatchOptions: (req, res) => {
     Models.User.findOne({
         where: {
           user_name: req.params.user
@@ -164,6 +165,18 @@ const craftsController = {
         layout: false
       }
     );
+  },
+
+  fetchUserCrafts: (req, res) => {
+    Models.User.findOne({
+        where: {
+          user_name: req.params.user
+        },
+        include: [Models.Craft]
+      })
+      .then((dbUser) => {
+        res.send(dbUser.dataValues.Crafts)
+      });
   }
 }
 
