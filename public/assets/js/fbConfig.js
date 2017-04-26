@@ -1,11 +1,11 @@
 // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyBAWx3ZLy8j86QkkL3kq3R92T7S1XE8mgg",
-    authDomain: "grow-with-friends.firebaseapp.com",
-    databaseURL: "https://grow-with-friends.firebaseio.com",
-    projectId: "grow-with-friends",
-    storageBucket: "grow-with-friends.appspot.com",
-    messagingSenderId: "910838171447"
+    apiKey: "AIzaSyDgkyYAcN295X18NrK4SNx4GudA1DxsDlo",
+    authDomain: "tandem-f181c.firebaseapp.com",
+    databaseURL: "https://tandem-f181c.firebaseio.com",
+    projectId: "tandem-f181c",
+    storageBucket: "tandem-f181c.appspot.com",
+    messagingSenderId: "824292856341"
   };
   firebase.initializeApp(config);
 

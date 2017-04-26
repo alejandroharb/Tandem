@@ -11,7 +11,7 @@ const geocoder = require('geocoder');
 //initialize firebase Admin
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "grow-with-friends.firebaseapp.com"
+  databaseURL: "https://tandem-f181c.firebaseio.com"
 });
 
 

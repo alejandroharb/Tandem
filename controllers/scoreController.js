@@ -2,9 +2,11 @@
 
 const Models = require('../models');
 
-scoreController = {
+let scoreController = {
   fetchScores: (craftsArr) => {
     //fetch data from firebase from each craft
+    // query database
+    var ref = database.ref("Scores/Users/" + username + "/" + craft);
   }
 }
 
