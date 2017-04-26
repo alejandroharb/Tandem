@@ -168,6 +168,7 @@ const craftsController = {
   },
 
   fetchUserCrafts: (req, res) => {
+    let craftArr =  [];
     Models.User.findOne({
         where: {
           user_name: req.params.user
@@ -175,7 +176,11 @@ const craftsController = {
         include: [Models.Craft]
       })
       .then((dbUser) => {
-        res.send(dbUser.dataValues.Crafts)
+        dbUser.dataValues.Crafts.forEach((elem, index) => {
+          craftArr.push(elem.craft);
+        });
+        console.log(craftArr);
+        return craftArr;
       });
   }
 }

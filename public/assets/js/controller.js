@@ -1,3 +1,6 @@
+//global reference to user's username
+let user = document.getElementById('user_name').getAttribute('data-user');
+
 //opens modal for respective craft
 let display_Craft_Add_Modal = (craft, username) => {
     //clear element children before appending
@@ -51,10 +54,39 @@ let getChartData = (user) => {
     method: 'GET',
     url: '/api/scores/crafts/' + user
   }).then((craftArr) => {
-    console.log(craftArr);
-    craftArr.forEach((elem, index) => {
-      
-    })
 
   })
 }
+
+let saveScores = () => {
+  let craft = $('#craft').val();
+  let hours = $('#hours'+ craft).val();
+  let database = firebase.database();
+  let date = new Date();
+  //firebase store data
+  database.ref('Scores/Users/' + user + '/' + craft + '/' + date).set({
+    hours: hours
+  });
+  //signal user, data saved successfully (materialize UI)
+  Materialize.toast("Saved", 3000);
+};
+
+let create_Score_Modal = (craft) => {
+  //clear element children before appending
+  let modalNode = document.getElementById('scoreModals');
+  while (modalNode.firstChild) {
+      modalNode.removeChild(modalNode.firstChild)
+  };
+  let id = "#" + craft + "ScoreModal";
+  console.log(id);
+  $.ajax({
+      method: "GET",
+      url: '/api/scores/scoreModal/' + craft + '/' + user
+  }).then((response) => {
+    $('#scoreModals').append(response);
+    //initialize modal
+    $('.modal').modal();
+  }).then( () => {
+    $(id).modal('open');
+  });
+};

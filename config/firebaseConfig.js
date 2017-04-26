@@ -1,12 +1,6 @@
-// var admin = require("firebase-admin");
+
 var firebase = require('firebase');
 
-// var serviceAccount = require("./Grow-with-Friends-firebaseServiceAccountKey.json"); //currently with firebase for Grow-with-Friends until migration
-// //initialize firebase Admin
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: "grow-with-friends.firebaseapp.com"
-// });
 var config = ({
   apiKey: "AIzaSyDgkyYAcN295X18NrK4SNx4GudA1DxsDlo",
   authDomain: "tandem-f181c.firebaseapp.com",
@@ -17,5 +11,5 @@ var config = ({
 });
 
 firebase.initializeApp(config);
-// module.exports = admin;
+
 module.exports = firebase;

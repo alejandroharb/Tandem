@@ -1,0 +1,17 @@
+<div id="{{score.craft}}ScoreModal" class="modal bottom-sheet">
+	<div class="modal-content">
+    <h3 class="center-align">{{score.craft}}</h3>
+		<h4 class="center-align">Enter Score</h4>
+			<div class="row">
+				<div class="col s8 offset-s2">
+					<input id="craft" type="hidden" value="{{score.craft}}">
+					<p class="range-field">
+						<span><i class="material-icons">query_builder</i></span>
+						<input type="range" id="hours{{score.craft}}" min="1" max="10" />
+						<span><i class="material-icons">query_builder</i></span>
+					</p>
+          <a onClick="saveScores()" class="modal-action modal-close waves-effect waves-green btn-flat">Enter</a>
+				</div>
+			</div>
+	</div>
+</div>

@@ -2,13 +2,6 @@ $(document).ready(function() {
   let user = document.getElementById('user_name').getAttribute('data-user');
   console.log(user);
   $('.collapsible').collapsible();
-  //   var config = {
-  //     apiKey: "AIzaSyBAWx3ZLy8j86QkkL3kq3R92T7S1XE8mgg",
-  //     authDomain: "<grow-with-friends.firebaseapp.com",
-  //     databaseURL: "https://grow-with-friends.firebaseio.com",
-  //     storageBucket: "<grow-with-friends.appspot.com",
-  //   };
-
   //   firebase.initializeApp(config);
   var database = firebase.database();
 
@@ -31,84 +24,6 @@ $(document).ready(function() {
                     'rgba(153, 102, 255, 0.2)'
                     ]
   plotIt();
-
-  //==================SCORE MODAL==================
-  // they are all opening same modal on-click, did not change original id="golfModal" yet
-  $('#golfScoreBtn').on('click', function(e) {
-      e.preventDefault();
-      $("#guitarCollapsible").removeClass("active");
-      $("#langCollapsible").removeClass("active");
-      $("#golfCollapsible").addClass("active");
-      activityModal = "golf";
-      $('#golfModal').modal('open');
-  });
-  $('#guitarScoreBtn').on('click', function(e) {
-      e.preventDefault();
-      $("#golfCollapsible").removeClass("active");
-      $("#langCollapsible").removeClass("active");
-      $("#guitarCollapsible").addClass("active");
-      activityModal = "guitar";
-      $('#guitarModal').modal('open');
-  });
-  $('#langScoreBtn').on('click', function(e) {
-      e.preventDefault();
-      $("#golfCollapsible").removeClass("active");
-      $("#guitarCollapsible").removeClass("active");
-      $("#langCollapsible").addClass("active");
-
-      activityModal = "lang";
-      $('#spanishModal').modal('open');
-  });
-
-  //==================Submit Activity Score==================
-  $('#submitGolfScore').on('click', function(e) {
-      e.preventDefault();
-      var  score = $('#golfScore').val();
-      var url = '/score/golf';
-      var data = {
-          score: score,
-          username: userName
-      }
-      plotIt();
-      $.post(url, data, function(response) {
-          // console.log("posted" + response);
-          plotIt();
-      })
-
-  })
-  //==================Submit Activity Score==================
-  $('#submitGuitarScore').on('click', function(e) {
-      e.preventDefault();
-      var score = $('#guitarHours').val();
-      var url= url = '/score/guitar';
-      var data = {
-          score: score,
-          username: userName
-      }
-      plotIt();
-      $.post(url, data, function(response) {
-      })
-  })
-  //==================Submit Activity Score==================
-  $('#submitSpanishScore').on('click', function(e) {
-      e.preventDefault();
-
-      var score = $('#spanishHours').val();
-      var url = '/score/lang';
-      var data = {
-          score: score,
-          username: userName
-      }
-      // console.log(data)
-      // console.log(url)
-      plotIt();
-      $.post(url, data, function(response) {
-          // console.log("posted" + response);
-
-      })
-
-  })
-
     //==================Get Activity at Graph Activity Request==================
     // filtering thorugh class getChartData
     $('.getChartData').on('click', function(e) {

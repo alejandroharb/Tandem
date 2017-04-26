@@ -2,6 +2,7 @@ $(document).ready( function() {
 
   let user = document.getElementById('user_name').getAttribute('data-user');
   $('.collapsible').collapsible();
+
   var database = firebase.database();
 
   var ctx = $(".GuitarChart");
@@ -43,5 +44,5 @@ $(document).ready( function() {
   };
 
   let thisChart = createChart(ctx, GolfChart);
-  getChartData(user);
+  // getChartData(user);
 })
