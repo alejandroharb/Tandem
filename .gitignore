@@ -75,8 +75,8 @@ jspm_packages
 .node_repl_history
 
 node_modules
-config/config.json
-config/fbServiceAccountConfig.js
-config/firebase.js
-config/tandem-f181c-firebase-adminsdk-a36gz-0956cf19fc.json
+
+
+
+
 .env
