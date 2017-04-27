@@ -6,7 +6,7 @@ const serviceAccount = require('./../config/fbServiceAccountConfig.js');
 // const firebase = require('./../config/firebaseConfig.js');
 const Models = require('../models');
 const geocoder = require('geocoder');
-// var helpers = require('handlebars-helpers')(); --not currently in use--
+var helpers = require('handlebars-helpers')(); 
 
 //initialize firebase Admin
 admin.initializeApp({
