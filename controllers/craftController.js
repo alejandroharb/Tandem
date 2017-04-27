@@ -5,6 +5,11 @@ const router = require('express').Router();
 const helpers = require('./helpers');
 const distance = require('google-distance');
 const scoreConstroller = require('./scoreController');
+let firebase = require('./../config/firebaseConfig.js');
+
+let database = firebase.database();
+
+
 
 const craftsController = {
   fetchCraftMatchOptions: (req, res) => {
@@ -28,7 +33,7 @@ const craftsController = {
           user_name: req.params.user
         }
       })
-      .then(function(data) {
+      .then(function (data) {
         var address = data.dataValues.address
         //use geocode function with callback to find city synchronously
         helpers.findCity(data, address, () => {
@@ -60,7 +65,7 @@ const craftsController = {
                     break;
                   }
                 }
-                var filteredArr = array.filter(function(obj, index) {
+                var filteredArr = array.filter(function (obj, index) {
                   if (index === 0) {
                     return true;
                   }
@@ -111,7 +116,7 @@ const craftsController = {
                     if (index < dbCraft.length) {
                       gatherDistData(index)
                     } else {
-                      distanceArray.sort(function(a, b) {
+                      distanceArray.sort(function (a, b) {
                         return a.distance - b.distance;
                       })
                       completeMatch(distanceArray)
@@ -147,7 +152,7 @@ const craftsController = {
             year_experience: clientPostData.year_experience,
             experience_rating: clientPostData.experience_rating,
             city: city
-          }).then(function(data) {
+          }).then(function (data) {
             res.json(data); // send saved data back to front-end
           });
         })
@@ -160,28 +165,46 @@ const craftsController = {
       username: req.params.username
     }
     console.log(userCraftData);
-    res.render("partials/addCraftModalPartial",{
-        userData: userCraftData,
-        layout: false
-      }
-    );
+    res.render("partials/addCraftModalPartial", {
+      userData: userCraftData,
+      layout: false
+    });
   },
 
-  fetchUserCrafts: (req, res) => {
-    let craftArr =  [];
-    Models.User.findOne({
-        where: {
-          user_name: req.params.user
-        },
-        include: [Models.Craft]
-      })
-      .then((dbUser) => {
-        dbUser.dataValues.Crafts.forEach((elem, index) => {
-          craftArr.push(elem.craft);
-        });
-        console.log(craftArr);
-        return craftArr;
-      });
+  fetchScores: (req, res) => {
+    let craftArr = [];
+    // Models.User.findOne({
+    //     where: {
+    //       user_name: req.params.user
+    //     },
+    //     include: [Models.Craft]
+    //   })
+    //   .then((dbUser) => {
+    //     dbUser.dataValues.Crafts.forEach((elem, index) => {
+    //       craftArr.push(elem.craft);
+    //     });
+    //     console.log(craftArr);
+
+    //     let scoreArrays = [];
+    //     for (let craft in craftsArr) {
+    //       var ref = database.ref("Scores/Users/" + user + "/" + craft);
+
+    //       ref.once('value').then(function (snapshot) {
+    //         var dataArray = snapshot.val();
+    //         console.log(dataArray);
+    //         let scorePkg = new ScoreDataPackage(craft, dataArray);
+    //         scoreArrays.push(scorePkg);
+    //         console.log(scoreArrays);
+    //       });
+
+    //     };
+    //     res.send(scoreArrays);
+    //   });
+    // let user = req.params.user;
+    // var ref = database.ref("Scores/Users/" + user);
+    // ref.once('value').then(function (snapshot) {
+    //     res.send("snapshot");
+    // });
   }
 }
 

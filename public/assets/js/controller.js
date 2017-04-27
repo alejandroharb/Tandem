@@ -1,6 +1,6 @@
 //global reference to user's username
 let user = document.getElementById('user_name').getAttribute('data-user');
-
+  var database = firebase.database();
 //opens modal for respective craft
 let display_Craft_Add_Modal = (craft, username) => {
     //clear element children before appending
@@ -44,18 +44,65 @@ let handle_Add_Craft_Submit = (e) => {
     });
 }
 
-let createChart = (context, configs) => {
-    return new Chart(context, configs)
+//constructor
+function ScoreDataPackage (craft, dateArr, scoreArr) {
+  this.craft = craft;
+  this.dates = dateArr;
+  this.scores = scoreArr;
 }
 
-let getChartData = (user) => {
+let getChartData = async (user) => {
+    let dataArr = [];
+    var ref = database.ref("Scores/Users/" + user);
+    return ref.once('value').then(function (snapshot) {
+        let data = snapshot.val();
+        for(var craft in data) {
+            let dateArr = [];
+            let scoreArr = [];
+            for(var date in data[craft]){
+                dateArr.push(moment(date).format('MMM D, YY'));
+                let dateObj = data[craft][date];
+                scoreArr.push(dateObj.hours);
+            };
+            let scorePkg = new ScoreDataPackage(craft, dateArr, scoreArr);
+            dataArr.push(scorePkg);
+        }
+        return dataArr;
+    });
 
-  $.ajax({
-    method: 'GET',
-    url: '/api/scores/crafts/' + user
-  }).then((craftArr) => {
+}
 
-  })
+// gets score data, and graphs for all crafts
+let graphData = async() => {
+    let userScoreData = await getChartData(user);
+    for (package of userScoreData) {
+        let classStr = "." + package.craft + "Chart"
+        var ctx = $(classStr);
+        let chart = {
+            type: 'bar',
+            data: {
+                labels: package.dates,
+                datasets: [{
+                    label: 'Hours Logged',
+                    data: package.scores,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        };
+        $(classStr).empty();
+        let thisChart = new Chart(ctx, chart);
+    }
 }
 
 let saveScores = () => {
@@ -69,6 +116,8 @@ let saveScores = () => {
   });
   //signal user, data saved successfully (materialize UI)
   Materialize.toast("Saved", 3000);
+  //graph the data
+  graphData()
 };
 
 let create_Score_Modal = (craft) => {

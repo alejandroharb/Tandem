@@ -5,8 +5,10 @@ const craftsController = require('./../controllers/craftController.js');
 const scoreController = require('./../controllers/scoreController.js');
 
 router.get('/crafts/:user', (req, res) => {
-  let craftArr = craftsController.fetchUserCrafts(req, res);
-  scoreController.fetchScores(craftArr, req.params.user);
+  let craftArr = craftsController.fetchScores(req, res);
+  // console.log(craftArr)
+  // craftArr.then(scoreController.fetchScores(craftArr, req.params.user, res))
+  
 });
 
 router.get('/scoreModal/:craft/:user', (req, res) => {
