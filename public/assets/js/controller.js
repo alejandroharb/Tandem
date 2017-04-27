@@ -71,7 +71,7 @@ let getChartData = async (user) => {
     });
 
 }
-
+Chart.defaults.global.hover = 'point';
 // gets score data, and graphs for all crafts
 let graphData = async() => {
     let userScoreData = await getChartData(user);
@@ -85,8 +85,8 @@ let graphData = async() => {
                 datasets: [{
                     label: 'Hours Logged',
                     data: package.scores,
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(127, 129, 129, 0.26)',
+                    borderColor: '#7f8181',
                     borderWidth: 1
                 }]
             },

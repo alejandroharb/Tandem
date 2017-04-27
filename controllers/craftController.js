@@ -21,7 +21,7 @@ const craftsController = {
       })
       .then((dbUser) => {
         res.render("partials/craftMatchPartial", {
-          crafts: dbUser.Crafts,
+          crafts: dbUser.dataValues.Crafts,
           layout: false
         });
       });
@@ -36,7 +36,7 @@ const craftsController = {
       .then(function (data) {
         var address = data.dataValues.address
         //use geocode function with callback to find city synchronously
-        helpers.findCity(data, address, () => {
+        helpers.findCity(data, address, (city) => {
           Models.Craft.findAll({
               where: [{
                 city: city
@@ -46,8 +46,6 @@ const craftsController = {
               include: [Models.User]
             })
             .then((dbCraft) => {
-              console.log("==================data result==================")
-              console.log(dbCraft.dataValues)
               var distanceArray = [];
               var userAddress = {
                 userHome: address
@@ -60,7 +58,7 @@ const craftsController = {
               function completeMatch(array) {
                 var userRating;
                 for (var i = 1; i < array.length; i++) {
-                  if (array[i].username === username) {
+                  if (array[i].username === req.params.user) {
                     userRating = array[i].rating;
                     break;
                   }
@@ -69,7 +67,7 @@ const craftsController = {
                   if (index === 0) {
                     return true;
                   }
-                  if (obj.username === username || obj.rating !== userRating) {
+                  if (obj.username === req.params.user || obj.rating !== userRating) {
                     return false;
                   } else {
                     return true
@@ -106,7 +104,7 @@ const craftsController = {
                     if (err) throw err;
 
                     //converting distance from feet into miles
-                    dist = data.distanceValue * 0.000189394;
+                    let dist = data.distanceValue * 0.000189394;
                     //adding distance as key in object to be send
                     //maintaining distance to 2 decimal places
                     userDistanceData.distance = dist.toFixed(2);

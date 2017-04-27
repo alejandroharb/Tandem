@@ -7,7 +7,7 @@
 				<div id="user_name" data-user={{info.basicInfo.user_name}}></div>
 				<p class="userDescription center-align">{{info.basicInfo.description}}</p>
 				<div class="row">
-					<a href="#" data-activates="slide-out" class="button-collapse btn menuBtn"><i class="material-icons medium">menu</i></a>
+					<a href="#" data-activates="slide-out" class="button-collapse btn menuBtn theme-color-primary"><i class="material-icons medium">menu</i></a>
 				</div>
 			</div>
 			{{!--=======USER ACTIVITY=======--}}
@@ -34,11 +34,11 @@
 
 					{{#each info.basicInfo.Crafts}}
 						<li>
-								<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData active" data-activity="{{this.craft}}" data-user={{info.basicInfo.user_name}} value="{{this.craft}}"><i class="material-icons">golf_course</i><span class="fontCollapsible">{{this.craft}}</span>
-									<span class="fontGrowth">Score Growth: &nbsp;<span class="golfTotalScore"></span></span>
+								<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData active" data-activity="{{this.craft}}" data-user={{info.basicInfo.user_name}} value="{{this.craft}}"><i class="material-icons">insert_chart</i><span class="fontCollapsible">{{this.craft}}</span>
+									{{!--<span class="fontGrowth">Score Growth: &nbsp;<span class="golfTotalScore"></span></span>--}}
 								</div>
 							<!-- =======BODY for BUTTONS======= -->
-							<div class="collapsible-body">
+							{{!--<div class="collapsible-body">
 								<div class="row tight-top-spacing">
 									<div class="col s6">
 										<a class=" btn cummulative waves-effect waves-light" data-activity="{{this.craft}}"><i class="material-icons">trending_up</i>Cummulative</a>
@@ -47,7 +47,7 @@
 										<a class=" btn dayCreated waves-effect waves-light" data-activity="{{this.craft}}"><i class="material-icons">assessment</i>Bar Graph</a>
 									</div>
 								</div>
-							</div>
+							</div>--}}
 							<!-- =======BODY for CHART======= -->
 							<div class="collapsible-body chartDiv {{this.craft}}ChartDiv">
 								<canvas class="{{this.craft}}Chart {{this.craft}}Canvas" height="300" width="580"></canvas>
@@ -75,7 +75,7 @@
 							<li><i class="material-icons">assessment</i> Experience Level</li>
 							<li><i class="material-icons">location_on</i> Location</li>
 						</ul>
-						<a id="getMatchedBtn" class="btn waves-effect waves-light matchBtn hoverable">Match</a>
+						<a id="getMatchedBtn" class="btn waves-effect waves-light matchBtn hoverable theme-color-primary">Match</a>
 					</div>
 				</li>
 			</ul>
@@ -84,7 +84,7 @@
 					<a class="collapsible-header"><i class="material-icons">playlist_add</i> Add Skills</a>
 					<div class="collapsible-body">
 						<h5>Add Skills to Work On!</h5>
-						<a id="showCrafts" class="btn waves-effect waves-light matchBtn  hoverable"><i class="material-icons">playlist_add</i> Skills!</a>
+						<a id="showCrafts" class="btn waves-effect waves-light matchBtn  hoverable theme-color-primary"><i class="material-icons">playlist_add</i> Skills!</a>
 					</div>
 				</li>
 			</ul>
@@ -96,7 +96,7 @@
 						<ul>
 							{{#each info.basicInfo.Crafts}}
 								<li>
-									<a class="btn waves-effect waves-light" onClick="create_Score_Modal('{{this.craft}}')"> {{this.craft}}</a></li>
+									<a class="btn waves-effect waves-light theme-color-primary" onClick="create_Score_Modal('{{this.craft}}')"> {{this.craft}}</a></li>
 								</li>
 							{{/each}}
 						</ul>

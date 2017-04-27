@@ -60,7 +60,7 @@ h4, h5 {
   margin-top: 35px;
   margin-bottom: 20px;
   border-radius: 10px;
-  font-family: cursive;
+  font-family: 'Merriweather', serif;
   font-size: 48px;
 }
 
@@ -120,18 +120,16 @@ hr {
   margin:10px auto;
 }
 .btnTheme {
-  background-color:#e8b549;
+  background-color:#579d99;
   color:#FAFAFA;
   border-radius: 4px;
-  padding: 6px 20px;
 }
 .googleAuthBtn{
     border-radius: 4px;
-    padding: 6px 20px;
     display: block;
     font-size: 16px;
     margin: 15px auto;
-    background-color: #cf412f;
+    background-color: #768685;
     color: #FAFAFA;
 }
 #unauthorized-wrapper a{

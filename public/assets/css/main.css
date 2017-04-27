@@ -1,9 +1,13 @@
 body{
 
-    background-color:#f5f5f5;
-    background-image: url("../img/gradient1.jpg");
-    background-repeat: no-repeat;
-    background-size: 100% auto;
+    /*background-color:#f5f5f5;
+    background-image: url("../img/Titanium.jpg");
+    background-repeat: repeat-y;
+    background-size: 100% auto;*/
+
+    background: #808080;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #3fada8, #808080);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #3fada8, #808080); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
 
@@ -196,17 +200,16 @@ canvas {
   float: right;
   font-weight: bold;
   font-size: 1.2em;
-  color: #E87F00!important;
-  /*color: #4A008D!important;*/
+  color: #7f8181!important;
   font-family: "Herculanum";
 }
 
 .fontCollapsible {
   font-weight: bold;
   font-size: 1.2em;
-  color: #E87F00!important;
+  color: #7f8181!important;
   /*color: #4A008D!important;*/
-  font-family: "Herculanum";
+  font-family: 'Cinzel', serif;
 }
 
 .fontGrowth {
@@ -221,7 +224,13 @@ canvas {
     /*background-color:#083c5d;*/
 }
 .dark-shade {
-    background-color:#083c5d;
+    background-color:#768685;
+}
+
+.brand-logo{
+    font-family: 'Merriweather', serif!important;
+    margin-left: 5px;
+    font-size: 3.1rem!important;
 }
 
 .secondary-blue {
@@ -255,7 +264,7 @@ canvas {
     text-align: center;
 }
 .side-nav{
-    background-color:#062b44!important;
+    background-color:rgba(56, 69, 68, 0.85)!important;
 }
 .side-nav a.btn {
     margin: 10px auto!important;
@@ -266,7 +275,7 @@ canvas {
 .side-nav .collapsible-body{
     color: rgb(250, 250, 250)!important;
     border-radius: 0px!important;
-    background-color:#041e2f!important;
+    background-color:#2d3131!important;
 }
 .side-nav li > a > i, .side-nav li > a > [class^="mdi-"], .side-nav li > a > [class*="mdi-"], .side-nav li > a > i.material-icons {
     color:#FAFAFA!important;
@@ -278,4 +287,8 @@ canvas {
     display: block;
     width: 50%;
     margin: 5px auto;
+}
+
+.theme-color-primary{
+    background-color: #579d99;
 }

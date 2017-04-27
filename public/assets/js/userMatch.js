@@ -1,9 +1,10 @@
 $(document).ready(function () {
+    //globally initializing user's username
+    let user = document.getElementById('user_name').getAttribute('data-user');
     //=================GETTING MATCHED (OPTIONS)===================
     $('#getMatchedBtn').on('click', function () {
-        var username = $('#user_name').attr('value');
         $.ajax({
-            url: '/api/crafts/match/options/' + username,
+            url: '/api/crafts/match/options/' + user,
             method: 'GET'
         }).then(function (response) {
             $('#craftOptionsModal').empty();
@@ -87,8 +88,10 @@ function createCollectionItem(userImg, name, years, distance) {
 
 function handleMatching(craft) {
     $('#preloaderInsert').addClass('progress');
-    var username = $('#user_name').attr('value');
-    var url = "/match/" + craft + "/" + username;
+    $('#yelpContent').empty();
+    $('#matchContentInsert').empty();
+    
+    var url = "/api/crafts/match/" + craft + "/" + user;
     var yelpAddress;
     //========GET GOLF MATCHES=========
     $.get(url, function (response) {
@@ -107,7 +110,7 @@ function handleMatching(craft) {
         };
         // //=====YELP API=====
         var yelpURL = '/api/yelp';
-        var yelpData = { address: yelpAddress }
+        var yelpData = { address: yelpAddress, craft: craft }
         $.post(yelpURL, yelpData, function (yelpResponse) {
             //collect yelp data
             for (var i = 0; i < yelpResponse.length; i++) {
