@@ -1,13 +1,13 @@
 body{
 
-    /*background-color:#f5f5f5;
-    background-image: url("../img/Titanium.jpg");
+    background-color:#f5f5f5;
+    background-image: url("../img/blue.jpeg");
     background-repeat: repeat-y;
-    background-size: 100% auto;*/
+    background-size: 100% auto;
 
-    background: #808080;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #3fada8, #808080);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #3fada8, #808080); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /*background: #808080;
+    background: -webkit-linear-gradient(to right, #3fada8, #808080);
+    background: linear-gradient(to right, #3fada8, #808080); */
 
 }
 

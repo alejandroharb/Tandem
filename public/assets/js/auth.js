@@ -6,89 +6,37 @@ $(document).ready(function () {
         e.preventDefault();
         console.log("tried to log in!!!")
         //collect variables
-        var email = $('#email').val().trim();
+        var user = $('#user').val().trim();
         var password = $('#password').val().trim();
-        //assemble data into object
-        // var data = {
-        //     email: email,
-        //     password: password
-        // }
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(function (response) {
-                console.log(response);
-                console.log("user signed in!")
-                // var key = response.uid;
-                // console.log("key is here: " + key)
-                // window.location.href = '/api/auth/home/' + key;
-            })
-            .catch(function (error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                if (errorCode === 'auth/wrong-password') {
-                    alert('Wrong password.');
-                } else {
-                    alert(errorMessage);
-                }
-                console.log(error);
-            });
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                console.log(user.uid);
-                // User is signed in.
-                var url = '/api/auth/user/authenticate';
-                $.ajax({
-                    method: 'POST',
-                    url: url,
-                    data: {
-                        uid: user.uid
-                    }
-                }).then(function (response) {
-                    window.location.href = '/api/auth/home/' + user.uid;
-
-                });
-            };
-        });
-    });
-    //============Creating new User==============
-    $('#newUserSubmit').on('click', function (e) {
-        //prevent page reload upon form submit
-        e.preventDefault();
-        //collect form variables
-        var username = $('#userName').val().trim();
-        var password = $('#password').val().trim();
-        var email = $('#email').val().trim();
-        // organize data into object
-        var data = {
-            username: username,
-            password: password,
-            email: email
-        };
-        //ajax POST for sending data to server
+        let data = {username: user, password:password}
         $.ajax({
-            type: "POST",
-            url: '/api/auth/sign-up',
-            data,
-            success: function (data, textStatus, xhr) {
-                if (xhr.status === 200) {
-                  console.log("successful data transfer");
-                  console.log(xhr.status);
-                    $('#createProfileModal').modal('open');
-                } else {
-                    console.log(data)
-                }
+          method: 'POST',
+          url: '/api/auth/login',
+          data
+        }).then((data, message, xhr) => {
+            if(!data){
+              alert("username of password are incorrect");
+            }
+            if(data) {
+              window.location.href = '/api/auth/home/' + data;
             }
         });
     });
-    //============entering User info==============
+    //============Creating new User==============
     $('#newProfileSubmit').on('click', function (event) {
         event.preventDefault();
+        var username = $('#userName').val().trim();
+        var password = $('#password').val().trim();
+        var email = $('#email').val().trim();
         var firstName = $('#first_name').val().trim();
         var lastName = $('#last_name').val().trim();
         var userName = $('#userName').val().trim();
         var address = $('#address').val().trim();
         var description = $('#description').val().trim();
         var data = {
+            user: username,
+            password: password,
+            email: email,
             first: firstName,
             last: lastName,
             username: userName,
@@ -101,24 +49,10 @@ $(document).ready(function () {
             method: "POST",
             url: '/api/auth/new-profile',
             data,
-            success: function (data, textStatus, xhr) {
-                if (xhr.status === 200) {
-                    var key = userName;
-                    var url = '/api/auth/user/authenticate';
-                    $.ajax({
-                        method: 'POST',
-                        url: url,
-                        data: { uid: key }
-                    }).then(function (response) {
-                        window.location.href = '/api/auth/home/' + key;
-                    });
-                } else {
-                    console.log(data)
-                    alert("Oops! Error in processing data. Working on fixing this. Sorry!");
-                }
-            }
-        });
+        }).then( (response) => { console.log( response )});
     });
+
+
     $('#unauthLoginRedirect').on('click', function () {
         window.location.href = '/';
     })

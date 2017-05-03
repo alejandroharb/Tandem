@@ -6,7 +6,12 @@ const serviceAccount = require('./../config/fbServiceAccountConfig.js');
 // const firebase = require('./../config/firebaseConfig.js');
 const Models = require('../models');
 const geocoder = require('geocoder');
-var helpers = require('handlebars-helpers')(); 
+//==passport auth==
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
+const LocalStrategy = require('passport-local').Strategy;
+
+const helpers = require('handlebars-helpers')();
 
 //initialize firebase Admin
 admin.initializeApp({
@@ -50,9 +55,11 @@ const authController = {
     });
     Models.User.findOrCreate({
       where: {
-        user_name: data.username
+        user_name: data.user
       },
       defaults: {
+        email: data.email,
+        password: data.password,
         first_name: data.first,
         last_name: data.last,
         user_name: data.username,
@@ -68,9 +75,10 @@ const authController = {
       console.log(created)
       if (created) {
         console.log("user data created!")
-        console.log(created)
+        console.log(user)
         //send success status, and user's entered info
-        res.status(200).send(created);
+        req.session.uid = user.dataValues.user_name; //setting session to user's name
+        res.redirect('/api/auth/home/'+ user.dataValues.user_name);
       } else {
         console.log("Error in user data entering!");
         res.status(400).send("Oops! Well this is embarassing. We've encountered an error in data process. Come back soon, as we're liking working on fixing this.");
@@ -94,11 +102,10 @@ const authController = {
     });
   },
 
-  logInUser: (req, res) => {
+  authenticateUser: (req, res) => {
     console.log("I should get the session id here ", req.session.uid);
     if (req.session.uid === req.params.id) { //security: checking session match
       console.log("user has been authenticated");
-      //---adding image source for displaying----
       var userData = {};
       //----query data for this specific profile-----
       Models.User.findOne({
@@ -119,6 +126,21 @@ const authController = {
         layout: "front-page"
       });
     }
+
+  },
+
+  login: (req, res) => {
+    Models.User.findOne({
+      where: { user_name: req.body.username, password: req.body.password }
+    }).then( (dbUser) => {
+      console.log(dbUser);
+      if (dbUser) {
+        req.session.uid = dbUser.dataValues.user_name; //setting session to user's name
+        res.send(dbUser.dataValues.user_name);
+      } else {
+        res.send(null);
+      }
+    });
   }
 }
 

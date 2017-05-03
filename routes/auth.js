@@ -23,7 +23,11 @@ router.get('/user/authenticate/signout', (req, res) => {
 //=============Route User Home + Authenticate credentials with Session==============
 router.get('/home/:id', (req, res) => {
   console.log("inside api/auth/home/:id");
-  authController.logInUser(req, res);
+  authController.authenticateUser(req, res);
 });
+
+router.post('/login', (req, res) => {
+  authController.login(req, res);
+})
 
 module.exports = router;
