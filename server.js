@@ -7,8 +7,8 @@ var bodyParser = require("body-parser");
 var multer = require('multer')
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+// var passport = require('passport');
+
 var session = require('express-session');
 //file upload middleware
 var mv = require('mv');
@@ -28,23 +28,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
-app.use(cookieParser());
-//sessions
-//file upload middleware
-var mv = require('mv');
+app.use(express.static('public'));
 app.use(session({
     secret: "boiling kettle",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
 }));
-app.use(passport.initialize());
-app.use(passport.session());
-// Static directory
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-
-
+// app.use(cookieParser());
+//sessions
+//file upload middleware
+var mv = require('mv');
 
 //server port
 var PORT = process.env.PORT || 3000;
