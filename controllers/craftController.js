@@ -149,7 +149,9 @@ const craftsController = {
             craft: req.params.craft,
             year_experience: clientPostData.year_experience,
             experience_rating: clientPostData.experience_rating,
-            city: city
+            city: city,
+            total_goals:0,
+            goals_accomplished: 0
           }).then(function (data) {
             res.json(data); // send saved data back to front-end
           });
@@ -167,6 +169,33 @@ const craftsController = {
       userData: userCraftData,
       layout: false
     });
+  },
+
+  fetchGoalModal: (req, res) => {
+    let userCraftData = {
+      craft: req.params.craft,
+      username: req.params.user
+    }
+    res.render("partials/goalModalPartial", {
+      userData: userCraftData,
+      layout: false
+    });
+  },
+
+  setCraftGoal: (req, res) => {
+
+
+    Models.Craft.update({
+      goal_hours:req.body.hours,
+      goal_date:req.body.date
+    },{
+      where: {
+        user_name: req.params.user,
+        craft: req.params.craft
+      }
+    }).then( (dbCraft) => {
+      res.end();
+    })
   },
 
   fetchScores: (req, res) => {

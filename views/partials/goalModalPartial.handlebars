@@ -1,0 +1,26 @@
+<div id="goalModal_{{userData.craft}}" class="modal goalModal">
+	<div class="modal-content">
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					<h4 class="center-align">{{craft}} Goal</h4>
+					<hr>
+					<form class="row" onsubmit="set_goal(event)">
+						<input	type="hidden" id="craft" value="{{userData.craft}}" />
+						<div class="col s12">
+							<h5>Hours</h5>
+							<p class="range-field">
+								<input type="range" id="goalHours" min="0" max="30" />
+							</p>
+						</div>
+						<div class="col s12">
+							<h5>Goal Deadline</h5>
+							<input type="date" class="datepicker" id="goalDate">
+						</div>
+						<button type="submit" class="modal-action modal-close btn btn-large waves-effect waves-light theme-color-primary">Submit</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

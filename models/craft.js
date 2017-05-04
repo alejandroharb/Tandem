@@ -39,6 +39,25 @@ module.exports = function(sequelize, DataTypes) {
                 isAlpha: true,
                 len: [1,300]
             }
+        },
+        goal_hours: {
+          type: DataTypes.INTEGER,
+          allowNull:true,
+          validate: {
+            isNumeric:true
+          }
+        },
+        goal_date: {
+          type: DataTypes.STRING,
+          allowNull:true
+        },
+        total_goals: {
+          type: DataTypes.INTEGER,
+          allowNull:true
+        },
+        goals_accomplished: {
+          type:DataTypes.INTEGER,
+          allowNull:true
         }
     },
     {

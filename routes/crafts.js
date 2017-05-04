@@ -16,4 +16,11 @@ router.get('/addCraft/:craft/:username', (req, res) => {
   craftsController.fetchModal(req, res);
 });
 
+router.get('/goalModal/:craft/:user', (req, res) => {
+  craftsController.fetchGoalModal(req, res);
+});
+
+router.post('/set-goal/:craft/:user', (req, res) => {
+  craftsController.setCraftGoal(req,res);
+});
 module.exports = router;

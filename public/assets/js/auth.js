@@ -49,7 +49,17 @@ $(document).ready(function () {
             method: "POST",
             url: '/api/auth/new-profile',
             data,
-        }).then( (response) => { console.log( response )});
+        }).then( (data, message, xhr) => {
+            if(data){
+              window.location.href = '/api/auth/home/' + data;
+            }
+            if(!data) {
+              alert("Oops! An error occurred, try again!");
+              setTimeout(() => {
+                window.location.href = '/create-user';
+              },3000);
+            }
+        });
     });
 
 
