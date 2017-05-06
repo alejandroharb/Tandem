@@ -166,7 +166,6 @@
 					</div>
 				</li>
 			</ul>
-
 			<!-- ======== [END] Nav Settings Btn======== -->
 		</li>
 	</ul>
@@ -177,24 +176,8 @@
 <div id="goalModal"></div>
 
 {{!--==========update profile Image MODAL===========--}}
-<div id="updateProfile" class="modal bottom-sheet">
-	<div class="modal-content">
-		<div class="container">
-			<div class="row">
-				<div class="col s12">
-					<h4>Edit your Info</h4>
-					<hr>
-					<h5>upload image</h5>
-					<form action="/image-upload" method="POST" enctype="multipart/form-data">
-						Select an image to upload:
-						<input type="file" name="image">
-						<input name="username" type="hidden" value="{{info.basicInfo.user_name}}">
-						<input id="imageUploadSubmit" type="submit">
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+<div id="updateProfileImage" class="modal">
+	{{> avatarModalHomePartial}}
 </div>
 {{!--===============MODALS FOR SETTING SKILLS=========================--}}
 <div id="setCraftModal" class="modal">

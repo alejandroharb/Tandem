@@ -315,3 +315,25 @@ let set_goal = (e) => {
     displayStats(craft);
   });
 }
+
+// ==== after user chooses avatar -> route to home page ===
+function handleAvatarHomeUpload(img) {
+  console.log(img);
+  console.log(user);
+  let data = {
+    image: img,
+    user: user
+  }
+  $.ajax({
+    method: 'PUT',
+    url: '/api/auth/avatar',
+    data: data
+  }).then( (res) => {
+    if(res) {
+      console.log(res);
+      location.reload();
+    } else {
+      alert("error in saving avatar");
+    }
+  })
+}

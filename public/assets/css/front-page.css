@@ -134,3 +134,24 @@ hr {
   display: block;
   margin: 15px auto;
 }
+.avatarImg a:hover{
+  cursor: pointer;
+}
+.avatarImg img{
+  border-radius: 50%;
+  width:100px;
+  height: auto;
+  display: block;
+  margin:5px auto;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+}
+.avatarDivider{
+  display: inline-block;
+  width: 25%;
+}
+#avatarModal{
+  text-align: center;
+}
+#avatarModal h4{
+  display: inline-block;
+}

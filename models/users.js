@@ -12,8 +12,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(100),
             allowNull:false,
             validate: {
-                len: [1,100],
-                isAlpha: true
+                len: [1,100]
             }
         },
         user_name: {

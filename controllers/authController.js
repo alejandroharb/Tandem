@@ -125,6 +125,18 @@ const authController = {
         res.send(null);
       }
     });
+  },
+
+  saveAvatar: (req, res) => {
+    console.log("user: " + req.body.user);
+    console.log("img: " + req.body.image);
+    Models.User.update({
+      image: req.body.image
+    },{
+      where: {user_name: req.body.user}
+    }).then( () => {
+      res.send(true);
+    })
   }
 }
 

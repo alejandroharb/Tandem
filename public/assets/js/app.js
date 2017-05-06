@@ -9,7 +9,7 @@ $(document).ready(function () {
       selectYears: 5 // Creates a dropdown of 15 years to control year
     });
     $('#updateProfileModal').on('click', function () {
-        $('#updateProfile').modal('open');
+        $('#updateProfileImage').modal('open');
     })
     // =============== USER Set Craft===================
     $('#showCrafts').on('click', function () {
