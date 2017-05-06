@@ -14,13 +14,12 @@ let display_Craft_Add_Modal = (craft, username) => {
         method: "GET",
         url: '/api/crafts/addCraft/' + craft + '/' + username
     }).then((response) => {
-        console.log(response);
+
         $('#addCraftModals').append(response);
         //initialize modal
         $('.modal').modal();
     }).then(() => {
         //open modal
-        console.log(id)
         $(id).modal('open');
     });
 
@@ -89,10 +88,38 @@ let clearCanvas = (id) => {
   let newCanvas = $('<canvas>').addClass('.' + id + 'Chart').attr('height', '300').attr('width', '580');
   $('.chartDiv').empty().append(newCanvas)
 }
+var polarChart;
+let graphPolarChart = async () => {
+  if(polarChart) {
+    polarChart.destroy();
+  }
+  let ctx = $('#craftsPolarChart');
+  var graphDataArr = [];
+  var craftArr = [];
+  //get data
+  let userScoreData = await getChartData(user);
+  for (package of userScoreData) {
+    //separate into craft array and hours array
+    craftArr.push(package.craft);
+    let sum = package.scores.reduce( (cumm, curr) => { return cumm + parseInt(curr);});
+    graphDataArr.push(sum);
+  }
+  //generate polar pie chart
+  polarChart = new Chart(ctx, {
+      data: {
+        labels: craftArr,
+        datasets: [{
+          data:graphDataArr,
+          backgroundColor:["#FF6384","#4BC0C0"]
+        }]
+      },
+      type: 'polarArea'
+  });
+}
 
 Chart.defaults.global.hover = 'point';
 // gets score data, and graphs for all crafts
-let graphData = async() => {
+let graphData = async () => {
     let userScoreData = await getChartData(user);
     for (package of userScoreData) {
         //using jquery to get child canvas of specific craft collapsible
@@ -103,13 +130,14 @@ let graphData = async() => {
                 labels: package.dates,
                 datasets: [
                   {
-                    type:'bar',
+                    type:'line',
                     label: 'Hours Logged',
                     data: package.scores,
                     yAxisID: "y-axis-bar",
                     backgroundColor: 'rgba(127, 129, 129, 0.26)',
                     borderColor: '#7f8181',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    fill:false
                   },
                   {
                     type:'line',
@@ -118,7 +146,8 @@ let graphData = async() => {
                     yAxisID: "y-axis-cummulative",
                     backgroundColor: 'rgba(96, 125, 139, 0.76)',
                     borderColor: '#607d8b',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    fill:true
                   }
                 ]
             },
@@ -140,19 +169,33 @@ let graphData = async() => {
     }
 }
 
-let saveScores = async(craft) => {
+let saveGoalScore = (craft, data) => {
+  $.ajax({
+    method: 'PUT',
+    url: '/api/crafts/goal-score-update/' + craft + '/' + user,
+    data: data
+  }).then( (res) => {
+    displayStats(craft);
+  })
+}
+
+let saveScores = async (craft) => {
   let hours = $('#hours'+ craft).val();
   let database = firebase.database();
   let date = moment().format(); //moment.js used for formatting the time
   //firebase store data
-  await database.ref('Scores/Users/' + user + '/' + craft + '/' + date).set({
+  database.ref('Scores/Users/' + user + '/' + craft + '/' + date).set({
     hours: hours
   })
+
+  let data = {hours: hours, date: date};
+  await saveGoalScore(craft, data);
   //signal user, data saved successfully (materialize UI)
   Materialize.toast("Saved", 3000, 'themeToast');
   //graph the data
   await clearCanvas(craft);
   graphData();
+  graphPolarChart();
 };
 
 let create_Score_Modal = (craft) => {
@@ -162,7 +205,6 @@ let create_Score_Modal = (craft) => {
       modalNode.removeChild(modalNode.firstChild)
   };
   let id = "#" + craft + "ScoreModal";
-  console.log(id);
   $.ajax({
       method: "GET",
       url: '/api/scores/scoreModal/' + craft + '/' + user
@@ -174,9 +216,61 @@ let create_Score_Modal = (craft) => {
     $(id).modal('open');
   });
 };
+let calculateTimeDiff = (goalDate) => {
+  let currentTime = moment();
+  let timeDiff = moment(goalDate).diff(currentTime, 'hours');
+  if(goalDate == null){
+    return "No Deadline Set";
+  } else if(parseInt(timeDiff) > 24) {
+    let days = Math.round(timeDiff / 24);
+    return days + " Days";
+  } else {
+    return timeDiff + " Hours";
+  }
+};
 
 let displayStats = (craft) => {
-
+  //=== display: line chart===
+  $('#'+craft+'Collapsible').click(); //open collapsible
+  //get data
+  $.ajax({
+    method:'GET',
+    url: '/api/crafts/craft-stuff/' + craft + '/' + user
+  }).then((craftData) => {
+    //get craft data
+    //===goal hours display===
+    let timeDifference = calculateTimeDiff(craftData.goal_date);
+    $('#craftGoalDeadline').empty().append('<p>' + timeDifference + '</p>');
+    //===donut pie chart===
+    var ctx = $('#craftGoal');
+    let hoursToDo = craftData.goal_hours_set - craftData.goal_hours_accomplished;
+    var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ["Done", "To Do"],
+          datasets: [{
+            data: [craftData.goal_hours_accomplished, hoursToDo],
+            backgroundColor: [
+                "rgba(127, 129, 129, 0.26)",
+                "rgba(96, 125, 139, 0.76)"
+            ],
+          }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Goal Tracker'
+            },
+            legend: {
+              fullWidth:false,
+              labels:{
+                fontSize:8,
+                boxWidth:10
+              }
+            }
+        }
+    });
+  })
 };
 let create_Goal_Modal = (craft) => {
   //clear element children before appending
@@ -213,10 +307,11 @@ let set_goal = (e) => {
     craft: craft
   }
   $.ajax({
-    method: 'POST',
+    method: 'PUT',
     url: '/api/crafts/set-goal/' + craft + '/' + user,
-    data
+    data:data
   }).then( () => {
     Materialize.toast("Saved", 3000, 'themeToast');
+    displayStats(craft);
   });
 }

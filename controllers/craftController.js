@@ -5,6 +5,7 @@ const router = require('express').Router();
 const helpers = require('./helpers');
 const distance = require('google-distance');
 const scoreConstroller = require('./scoreController');
+const moment = require('moment');
 let firebase = require('./../config/firebaseConfig.js');
 
 let database = firebase.database();
@@ -183,17 +184,17 @@ const craftsController = {
   },
 
   setCraftGoal: (req, res) => {
-
-
     Models.Craft.update({
-      goal_hours:req.body.hours,
-      goal_date:req.body.date
+      goal_hours_set:req.body.hours,
+      goal_date:req.body.date,
+      goal_set:true
     },{
       where: {
         user_name: req.params.user,
         craft: req.params.craft
       }
     }).then( (dbCraft) => {
+      console.log(dbCraft)
       res.end();
     })
   },
@@ -232,6 +233,122 @@ const craftsController = {
     // ref.once('value').then(function (snapshot) {
     //     res.send("snapshot");
     // });
+  },
+
+  fetchCraftStuff: (req, res, user, craft, cb) => {
+    var username, userCraft;
+    if(req) {
+      username = req.params.user;
+      userCraft = req.params.craft;
+    }
+    if(user && craft) {
+      username = user;
+      userCraft = craft;
+    }
+    Models.Craft.findOne({
+      where: {
+        user_name: username,
+        craft: userCraft
+      }
+    }).then( (dbCraft) => {
+      if(req) {
+        res.send(dbCraft);
+      }
+      if(user && craft) {
+        cb(dbCraft);
+      }
+    })
+  },
+
+  updateCraftGoal: (req, res) => {
+    let user = req.params.user;
+    let craft = req.params.craft;
+    Models.Craft.findOne({
+      where: {
+        user_name: user,
+        craft: craft
+      }
+    }).then( (dbCraft) => {
+      //if a goal is set, update with latest scores
+      let hourInput = parseInt(req.body.hours);
+      let updatedGoalHours = parseInt(dbCraft.goal_hours_accomplished) + hourInput;
+      let totalGoals = parseInt(dbCraft.total_goals);
+      let goalsAccomplished = parseInt(dbCraft.goals_accomplished);
+      console.log("goal date: " + dbCraft.goal_date);
+      console.log("date at time of hour submit: " + req.body.date)
+      let dateDifference = moment(dbCraft.goal_date).diff(req.body.date); //date difference calculated
+      console.log("date difference => " + dateDifference);
+      if(dbCraft.goal_set) {
+        console.log("goal is set")
+        //if goal achieved && time not expired, update database and inform client
+        if(dbCraft.goal_hours_set <= updatedGoalHours && dateDifference > 0) { // - [ ] also need to add condition on date
+          console.log("goal achieved!!")
+          totalGoals ++ //update goals set
+          goalsAccomplished ++ //update goals accomplished
+          Models.Craft.update({
+            goal_set: false,
+            goal_hours_set: 0,
+            goal_hours_accomplished: 0,
+            goal_date:null,
+            total_goals:totalGoals,
+            goals_accomplished: goalsAccomplished
+          },{
+            where: {
+              user_name: user,
+              craft: craft
+            }
+          }).then( () => {
+            //build response package
+            let responsePackage = new helpers.GoalPackage(true, false, dbCraft.total_goals, dbCraft.goals_accomplished);
+            res.send(responsePackage);
+          })
+
+        }
+        //if goal not accomplished, and goal not expired
+        if(dbCraft.goal_hours_set > updatedGoalHours && dateDifference > 0) {
+          console.log("goal NOT achieved and NOT expired!!")
+          Models.Craft.update({
+            goal_hours_accomplished: updatedGoalHours
+          },{
+            where: {
+              user_name:user,
+              craft: craft
+            }
+          }).then( () => {
+            craftsController.fetchCraftStuff(null, null, user, craft, function(data) {
+              console.log(data);
+              //build response package
+              let responsePackage = new helpers.GoalPackage(false, false, data.total_goals, data.goals_accomplished);
+              //inform client
+              res.send(responsePackage);
+            });
+
+
+          })
+        }
+        //if goal not accomplished && goal has expired
+        if(dbCraft.goal_hours_set > updatedGoalHours && dateDifference < 0){
+          totalGoals ++ //update goals set
+          Models.Craft.update({
+            goal_set: false,
+            goal_hours_set: 0,
+            goal_hours_accomplished: 0,
+            goal_date:null,
+            total_goals:totalGoals
+          },{
+            where: {
+              user_name: req.params.user,
+              craft: craft
+            }
+          }).then( (dbCraft) => {
+            //build response package
+            let responsePackage = new helpers.GoalPackage(false, true, dbCraft.total_goals, dbCraft.goals_accomplished);
+            //inform client
+            res.send(responsePackage);
+          });
+        }
+      }
+    });
   }
 }
 

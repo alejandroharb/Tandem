@@ -6,6 +6,7 @@ $(document).ready(function () {
     //initialize firebase database
     var database = firebase.database();
 
-    //on load, graph data
+    //on load, graph charts
     graphData();
+    graphPolarChart();
 });

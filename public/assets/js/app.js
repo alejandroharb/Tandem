@@ -15,4 +15,7 @@ $(document).ready(function () {
     $('#showCrafts').on('click', function () {
         $('#setCraftModal').modal('open');
     });
+    //on load, display first craft available
+    $('.craft-0').click();
+
 });

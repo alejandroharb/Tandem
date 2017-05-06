@@ -13,6 +13,13 @@ const helper = {
               }
           }
       });
+  },
+  //constructor builds goal update to send to client
+  GoalPackage: function (goalAccomplished, goalExpired, totalGoals, totalGoalsAccomplished) {
+    this.goalAccomplished = goalAccomplished;
+    this.goalExpired = goalExpired;
+    this.totalGoals = totalGoals;
+    this.totalGoalsAccomplished = totalGoalsAccomplished;
   }
 }
 

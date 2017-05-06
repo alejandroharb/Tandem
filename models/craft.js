@@ -40,8 +40,22 @@ module.exports = function(sequelize, DataTypes) {
                 len: [1,300]
             }
         },
-        goal_hours: {
+        goal_set: {
+          type:DataTypes.BOOLEAN,
+          allowNull:false,
+          defaultValue: false
+        },
+        goal_hours_set: {
           type: DataTypes.INTEGER,
+          defaultValue:0,
+          allowNull:true,
+          validate: {
+            isNumeric:true
+          }
+        },
+        goal_hours_accomplished: {
+          type: DataTypes.INTEGER,
+          defaultValue:0,
           allowNull:true,
           validate: {
             isNumeric:true
@@ -53,11 +67,13 @@ module.exports = function(sequelize, DataTypes) {
         },
         total_goals: {
           type: DataTypes.INTEGER,
-          allowNull:true
+          allowNull:true,
+          defaultValue:0
         },
         goals_accomplished: {
           type:DataTypes.INTEGER,
-          allowNull:true
+          allowNull:true,
+          defaultValue:0
         }
     },
     {

@@ -1,33 +1,8 @@
 <div class="background-img"></div>
+<!-- Header Bar (User Bar) -->
 <header>
-	<!-- <nav class="dark-shade">
-		<div class="nav-wrapper">
-			<a href="/" class="brand-logo"> Tandem</a>
-			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="#"><i class="material-icons">person_pin</i></a></li>
-				<li><a href="#"><i class="material-icons">forum</i></a></li>
-				<li><a class="dropdown-button" data-activates="userMenuDropdown" href="#"><i class="material-icons">settings</i></a></li>
-			</ul>
-			<ul id='userMenuDropdown' class='dropdown-content'>
-				<li><a href="#!" id="userSignOut">Sign Out</a></li>
-				<li class="divider"></li>
-				<li><a href="#!"  id="updateProfileModal">Profile Photo</a></li>
-			</ul>
-		</div>
-	</nav> -->
 	<div class="header-wrapper">
 		<div class="container">
-			<a href="/" class="logo"> T</a>
-      <!-- ========Nav Settings Btn======== -->
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a class="dropdown-button" data-activates="userMenuDropdown" href="#"><i class="material-icons">settings</i></a></li>
-      </ul>
-      <ul id='userMenuDropdown' class='dropdown-content'>
-        <li><a href="#!" id="userSignOut">Sign Out</a></li>
-        <li class="divider"></li>
-        <li><a href="#!" id="updateProfileModal">Profile Photo</a></li>
-      </ul>
-      <!-- ======== [END] Nav Settings Btn======== -->
 			<div class="row">
 				<div class="col s3">
           <div id="user_name" data-user={{info.basicInfo.user_name}}></div>
@@ -40,10 +15,10 @@
 						<div class="col m4">
 							<!-- Dropdown Trigger -->
               <div class="craftView">
-                <div class="collection with-header">
+                <div class="collection with-header craftViewCollection">
                     <h3>Your Craft</h3>
                   {{#each info.basicInfo.Crafts}}
-                    <a id="{{this.craft}}Collection" class="collection-item" onClick="displayStats('{{this.craft}}')"> {{this.craft}}</a>
+                    <a id="{{this.craft}}Collection" class="collection-item craft-{{@index}}" onClick="displayStats('{{this.craft}}')"> {{this.craft}}</a>
                   {{/each}}
                 </div>
               </div>
@@ -55,12 +30,13 @@
               </ul>
 						</div>
 						<div class="col m4">
-              <h3>Hours Invested</h3>
-              <div id="craftScore"></div>
+              <h3>Time Remaining</h3>
+              <div id="craftGoalDeadline"></div>
 						</div>
 						<div class="col m4">
-              <h3>Current Goal</h3>
-              <div id="craftGoal"></div>
+              <div class="goalChartDiv">
+								<canvas id="craftGoal" width="150" height="150"></canvas>
+							</div>
 						</div>
 					</div>
 
@@ -69,19 +45,21 @@
 		</div>
 	</div>
 </header>
+<!-- Main Body Container -->
 <div class="container">
 	<div class="row">
 		<div class="col s12 m4">
-			<!-- <div class="user-wrapper wrappers">
-				<img src="/uploads/images/{{info.basicInfo.image}}" class="responsive-img circle userImg">
-				<h2 class="center-align userTitle"> {{info.basicInfo.first_name}} {{info.basicInfo.last_name}}</h2>
-				<div id="user_name" data-user={{info.basicInfo.user_name}}></div>
-				<p class="userDescription center-align">{{info.basicInfo.description}}</p>
+			{{!--=======Polar Area Chart=======--}}
+			<div class="polar-chart-wrapper wrappers">
 				<div class="row">
-					<a href="#" data-activates="slide-out" class="button-collapse btn menuBtn theme-color-primary"><i class="material-icons medium">menu</i></a>
+					<div class="col s12">
+						<div>
+							<canvas id="craftsPolarChart" width="200" height="200"></canvas>
+						</div>
+					</div>
 				</div>
-			</div> -->
-			{{!--=======USER ACTIVITY=======--}}
+			</div>
+			{{!--=======User Activity=======--}}
 			<div class="user-activity-wrapper wrappers">
 				<div class="row">
 					<div class="col s12">
@@ -94,21 +72,17 @@
 					</div>
 				</div>
 			</div>
-			{{!--Chart Wrapper--}}
 		</div>
+		<!-- ============= Line Charts (collapsibles)============= -->
 		<div class="col s12 m8 chartContainer">
 			<div class="chart-wrapper">
 				<div id="user-name" value="{{info.basicInfo.user_name}}"></div>
-
-				<!-- =============COLLAPSIBLE POPOUT===holds individual collapsibles============= -->
 				<ul class="collapsible popout" data-collapsible="accordion">
 
 					{{#each info.basicInfo.Crafts}}
 						<li>
-							<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData active" data-activity="{{this.craft}}" data-user= {{info.basicInfo.user_name}} value="{{this.craft}}"><i class="material-icons">insert_chart</i><span class="fontCollapsible">{{this.craft}}</span>{{!--<span class="fontGrowth">Score Growth: &nbsp;<span class="golfTotalScore"></span></span>--}}
-							</div>
-
-							<!-- =======BODY for CHART======= -->
+							<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData" data-activity="{{this.craft}}" data-user= {{info.basicInfo.user_name}} value="{{this.craft}}"><i class="material-icons">insert_chart</i><span class="fontCollapsible">{{this.craft}}</span></div>
+							<!-- ==chart body== -->
 							<div class="collapsible-body chartDiv {{this.craft}}ChartDiv">
 								<canvas class="{{this.craft}}Chart {{this.craft}}Canvas" height="300" width="580"></canvas>
 							</div>
@@ -120,10 +94,11 @@
 		</div>
 	</div>
 </div>
-{{!--=============!!!!!!!!SIDE NAV!!!!!!!!!=============--}}
+{{!--============= Side Nav =============--}}
 <div>
 	<ul id="slide-out" class="side-nav">
 		<li class="no-padding">
+			<h2 class="logo">Tandem</h2>
 			<ul class="collapsible collapsible-accordion">
 				<li>
 					<a class="collapsible-header"><i class="material-icons">supervisor_account</i> Match</a>
@@ -141,18 +116,18 @@
 			</ul>
 			<ul class="collapsible collapsible-accordion">
 				<li>
-					<a class="collapsible-header"><i class="material-icons">playlist_add</i> Add Skills</a>
+					<a class="collapsible-header"><i class="material-icons">playlist_add</i> Add a Craft</a>
 					<div class="collapsible-body">
-						<h5>Add Skills to Work On!</h5>
-						<a id="showCrafts" class="btn waves-effect waves-light matchBtn  hoverable theme-color-primary"><i class="material-icons">playlist_add</i> Skills!</a>
+						<h5>Hone a New Craft!</h5>
+						<a id="showCrafts" class="btn waves-effect waves-light matchBtn  hoverable theme-color-primary"><i class="material-icons">playlist_add</i> All Crafts</a>
 					</div>
 				</li>
 			</ul>
 			<ul class="collapsible collapsible-accordion">
 				<li>
-					<a class="collapsible-header"><i class="material-icons">library_add</i> Score</a>
+					<a class="collapsible-header"><i class="material-icons">library_add</i> Hours</a>
 					<div class="collapsible-body">
-						<h5>Add Skills to Work On!</h5>
+						<h5>Track Your Hours!</h5>
 						<ul>
 							{{#each info.basicInfo.Crafts}}
 								<li>
@@ -179,6 +154,20 @@
 				  </div>
 		    </li>
 		  </ul>
+			<!-- ========Nav Settings Btn======== -->
+			<ul class="collapsible collapsible-accordion">
+				<li>
+					<a class="collapsible-header"><i class="material-icons">settings</i> Settings</a>
+					<div class="collapsible-body">
+						<ul>
+							<li><a href="#!" id="userSignOut">Sign Out</a></li>
+							<li><a href="#!" id="updateProfileModal">Profile Photo</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<!-- ======== [END] Nav Settings Btn======== -->
 		</li>
 	</ul>
 </div>

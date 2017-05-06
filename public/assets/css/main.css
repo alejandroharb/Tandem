@@ -272,9 +272,10 @@ canvas {
 .logo{
     font-family: 'Merriweather', serif!important;
     font-size: 3.1rem!important;
-    position: absolute;
-    top:0;
-    left: 15px;
+    position: relative;
+    text-align: center;
+    color: white;
+    margin-bottom: 0;
 }
 
 .secondary-blue {
@@ -381,4 +382,19 @@ canvas {
 
 .themeToast{
   background-color: #CDDC39;
+}
+.goalChartDiv{
+  width: 150px;
+  height:150px;
+  position: relative;
+  display: block;
+  margin:0 auto;
+}
+.polar-chart-wrapper {
+  margin: 0.5rem 0 1rem 0;
+  border-radius: 6px;
+}
+#craftGoalDeadline p{
+  font-size: 32px;
+  color: #859ba6;
 }
