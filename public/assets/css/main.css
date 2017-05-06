@@ -1,15 +1,47 @@
 body{
 
     background-color:#f5f5f5;
-    background-image: url("../img/blue.jpeg");
-    background-repeat: repeat-y;
+    background-image: url("../img/blue.jpg");
+    background-repeat: repeat;
     background-size: 100% auto;
+    background-position: top center;
 
     /*background: #808080;
     background: -webkit-linear-gradient(to right, #3fada8, #808080);
-    background: linear-gradient(to right, #3fada8, #808080); */
+    background: linear-gradient(to right, #3fada8, #808080);*/
+
+    /*-webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -o-filter: blur(1px);
+    -ms-filter: blur(1px);
+    filter: blur(1px);*/
 
 }
+/*.background-img{
+  	position: fixed;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom:0;
+    z-index: -1000;
+    display: block;
+    width: 100%;
+
+    background-image: url("../img/dots.jpg");
+    background-size: 100% auto;
+    background-repeat: repeat;
+    background-position:top center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -o-filter: blur(1px);
+    -ms-filter: blur(1px);
+    filter: blur(1px);
+}*/
 
 .user-wrapper {
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
@@ -38,13 +70,25 @@ body{
     font-weight: 700;
     font-size: 24px;
 }
+
+.header-wrapper {
+  background-color:#FAFAFA;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.userMenu{
+  text-align: center;
+}
+.userMenu h3{
+  font-size: 18px;
+}
+
 img.userImg{
-    background-color:#FAFAFA;
-    border: 3px solid #9E9E9E;
-    display: block;
-    width:200px;
-    height: 200px;
-    margin: -75px auto 20px auto;
+  background-color: #FAFAFA;
+  border: 3px solid #9E9E9E;
+  display: block;
+  width: 80px;
+  height: auto;
+  margin: 5px auto 15px auto;
 }
 
 img.nav-icon-img{
@@ -58,7 +102,9 @@ h2{
 }
 h2.userTitle {
     font-weight: 700;
-    font-size: 24px;
+    font-size: 22px;
+    text-align: center;
+    margin: 15px auto;
 }
 .submitScoreTitle{
     font-size:23px;
@@ -78,7 +124,7 @@ input[type=range]{
 }
 
 .chart-wrapper {
-    margin: 80px auto 30px auto;
+    margin: 0 auto 30px auto;
     position:relative;
     width:100%;
     border-radius: 6px;
@@ -158,10 +204,6 @@ canvas {
   padding-top: 25px;
 }
 
-.collapsible-header, .collapsible-body, ul, li {
-  border-radius: 6px!important;
-
-}
 
 
 #map {
@@ -227,10 +269,13 @@ canvas {
     background-color:#768685;
 }
 
-.brand-logo{
+.logo{
     font-family: 'Merriweather', serif!important;
-    margin-left: 5px;
     font-size: 3.1rem!important;
+    position: relative;
+    text-align: center;
+    color: white;
+    margin-bottom: 0;
 }
 
 .secondary-blue {
@@ -284,11 +329,93 @@ canvas {
     color:#FAFAFA!important;
 }
 .menuBtn{
-    display: block;
-    width: 50%;
+    display: block!important;
     margin: 5px auto;
+    border-radius:0!important;
+    background-color: transparent!important;
+    box-shadow: none!important;
 }
-
+.btn-floating i{
+  color:#607D8B;
+}
+.btn-floating:hover{
+  background-color:#EEEEEE!important;
+}
+#nav-mobile{
+  position: absolute;
+  right: 30px;
+}
+.craftView {
+  height: 175px;
+  overflow-y: scroll;
+}
+.craftView .collection a.collection-item{
+  color:#607D8B;
+  cursor: pointer;
+}
 .theme-color-primary{
     background-color: #579d99;
+}
+
+.chart-wrapper .collapsible-header{
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-bottom-left-radius: 0;
+}
+.chart-wrapper .collapsible-body {
+  border-radius: 0!important;
+}
+
+.goalModal{
+  width:25%!important;
+  text-align: center;
+}
+.scoreModal{
+  width:30%!important;
+  text-align: center;
+}
+
+.picker__input{
+  text-align: center!important;
+}
+
+.themeToast{
+  background-color: #CDDC39;
+}
+.goalChartDiv{
+  width: 150px;
+  height:150px;
+  position: relative;
+  display: block;
+  margin:0 auto;
+}
+.polar-chart-wrapper {
+  margin: 0.5rem 0 1rem 0;
+  border-radius: 6px;
+}
+#craftGoalDeadline p{
+  font-size: 32px;
+  color: #859ba6;
+}
+.avatarImg a:hover{
+  cursor: pointer;
+}
+.avatarImg img{
+  border-radius: 50%;
+  width:100px;
+  height: auto;
+  display: block;
+  margin:5px auto;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+}
+.avatarDivider{
+  display: inline-block;
+  width: 25%;
+}
+#updateProfileImage{
+  text-align: center;
+}
+#updateProfileImage h4{
+  display: inline-block;
 }

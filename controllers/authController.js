@@ -22,23 +22,6 @@ admin.initializeApp({
 
 
 const authController = {
-  firebaseCreateUser: (req, res) => {
-    admin.auth().createUser({
-        uid: req.body.username,
-        email: req.body.email,
-        emailVerified: false,
-        password: req.body.password,
-        disabled: false
-      })
-      .then(function (userRecord) {
-        // See the UserRecord reference doc for the contents of userRecord.
-        console.log("Successfully created new user:", userRecord.uid);
-        res.sendStatus(200);
-      })
-      .catch(function (error) {
-        console.log("Error creating new user:", error);
-      });
-  },
 
   createProfile: (req, res) => {
     var data = req.body;
@@ -78,10 +61,10 @@ const authController = {
         console.log(user)
         //send success status, and user's entered info
         req.session.uid = user.dataValues.user_name; //setting session to user's name
-        res.redirect('/api/auth/home/'+ user.dataValues.user_name);
+        res.send(user.dataValues.user_name);
       } else {
         console.log("Error in user data entering!");
-        res.status(400).send("Oops! Well this is embarassing. We've encountered an error in data process. Come back soon, as we're liking working on fixing this.");
+        res.send(null);
       }
     });
   },
@@ -121,10 +104,11 @@ const authController = {
           });
         })
     } else {
-      res.render("unauthorized", {
-        title: "Unauthorized Access Page",
-        layout: "front-page"
-      });
+      // res.render("unauthorized", {
+      //   title: "Unauthorized Access Page",
+      //   layout: "front-page"
+      // });
+      res.redirect('/');
     }
 
   },
@@ -141,6 +125,18 @@ const authController = {
         res.send(null);
       }
     });
+  },
+
+  saveAvatar: (req, res) => {
+    console.log("user: " + req.body.user);
+    console.log("img: " + req.body.image);
+    Models.User.update({
+      image: req.body.image
+    },{
+      where: {user_name: req.body.user}
+    }).then( () => {
+      res.send(true);
+    })
   }
 }
 

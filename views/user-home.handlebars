@@ -1,16 +1,65 @@
+<div class="background-img"></div>
+<!-- Header Bar (User Bar) -->
+<header>
+	<div class="header-wrapper">
+		<div class="container">
+			<div class="row">
+				<div class="col s3">
+          <div id="user_name" data-user={{info.basicInfo.user_name}}></div>
+					<h2 class="userTitle"> {{info.basicInfo.first_name}} {{info.basicInfo.last_name}}</h2>
+					<img src="/uploads/images/{{info.basicInfo.image}}" class="responsive-img circle userImg">
+          <a href="#" data-activates="slide-out" class="button-collapse btn-floating menuBtn theme-color-primary"><i class="material-icons medium">menu</i></a>
+				</div>
+				<div class="col s9 userMenu">
+					<div class="row">
+						<div class="col m4">
+							<!-- Dropdown Trigger -->
+              <div class="craftView">
+                <div class="collection with-header craftViewCollection">
+                    <h3>Your Craft</h3>
+                  {{#each info.basicInfo.Crafts}}
+                    <a id="{{this.craft}}Collection" class="collection-item craft-{{@index}}" onClick="displayStats('{{this.craft}}')"> {{this.craft}}</a>
+                  {{/each}}
+                </div>
+              </div>
+              <ul id='craftMenu' class='dropdown-content'>
+                {{#each info.basicInfo.Crafts}}
+                  <li><a href="#!">{{this.craft}}</a></li>
+                  <li class="divider"></li>
+                {{/each}}
+              </ul>
+						</div>
+						<div class="col m4">
+              <h3>Time Remaining</h3>
+              <div id="craftGoalDeadline"></div>
+						</div>
+						<div class="col m4">
+              <div class="goalChartDiv">
+								<canvas id="craftGoal" width="150" height="150"></canvas>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+<!-- Main Body Container -->
 <div class="container">
 	<div class="row">
 		<div class="col s12 m4">
-			<div class="user-wrapper wrappers">
-				<img src="/uploads/images/{{info.basicInfo.image}}" class="responsive-img circle userImg">
-				<h2 class="center-align userTitle"> {{info.basicInfo.first_name}} {{info.basicInfo.last_name}}</h2>
-				<div id="user_name" data-user={{info.basicInfo.user_name}}></div>
-				<p class="userDescription center-align">{{info.basicInfo.description}}</p>
+			{{!--=======Polar Area Chart=======--}}
+			<div class="polar-chart-wrapper wrappers">
 				<div class="row">
-					<a href="#" data-activates="slide-out" class="button-collapse btn menuBtn theme-color-primary"><i class="material-icons medium">menu</i></a>
+					<div class="col s12">
+						<div>
+							<canvas id="craftsPolarChart" width="200" height="200"></canvas>
+						</div>
+					</div>
 				</div>
 			</div>
-			{{!--=======USER ACTIVITY=======--}}
+			{{!--=======User Activity=======--}}
 			<div class="user-activity-wrapper wrappers">
 				<div class="row">
 					<div class="col s12">
@@ -23,32 +72,17 @@
 					</div>
 				</div>
 			</div>
-			{{!--Chart Wrapper--}}
 		</div>
+		<!-- ============= Line Charts (collapsibles)============= -->
 		<div class="col s12 m8 chartContainer">
 			<div class="chart-wrapper">
 				<div id="user-name" value="{{info.basicInfo.user_name}}"></div>
-
-				<!-- =============COLLAPSIBLE POPOUT===holds individual collapsibles============= -->
 				<ul class="collapsible popout" data-collapsible="accordion">
 
 					{{#each info.basicInfo.Crafts}}
 						<li>
-								<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData active" data-activity="{{this.craft}}" data-user={{info.basicInfo.user_name}} value="{{this.craft}}"><i class="material-icons">insert_chart</i><span class="fontCollapsible">{{this.craft}}</span>
-									{{!--<span class="fontGrowth">Score Growth: &nbsp;<span class="golfTotalScore"></span></span>--}}
-								</div>
-							<!-- =======BODY for BUTTONS======= -->
-							{{!--<div class="collapsible-body">
-								<div class="row tight-top-spacing">
-									<div class="col s6">
-										<a class=" btn cummulative waves-effect waves-light" data-activity="{{this.craft}}"><i class="material-icons">trending_up</i>Cummulative</a>
-									</div>
-									<div class="col s6">
-										<a class=" btn dayCreated waves-effect waves-light" data-activity="{{this.craft}}"><i class="material-icons">assessment</i>Bar Graph</a>
-									</div>
-								</div>
-							</div>--}}
-							<!-- =======BODY for CHART======= -->
+							<div id="{{this.craft}}Collapsible" class="collapsible-header getChartData" data-activity="{{this.craft}}" data-user= {{info.basicInfo.user_name}} value="{{this.craft}}"><i class="material-icons">insert_chart</i><span class="fontCollapsible">{{this.craft}}</span></div>
+							<!-- ==chart body== -->
 							<div class="collapsible-body chartDiv {{this.craft}}ChartDiv">
 								<canvas class="{{this.craft}}Chart {{this.craft}}Canvas" height="300" width="580"></canvas>
 							</div>
@@ -60,10 +94,11 @@
 		</div>
 	</div>
 </div>
-{{!--=============!!!!!!!!SIDE NAV!!!!!!!!!=============--}}
+{{!--============= Side Nav =============--}}
 <div>
 	<ul id="slide-out" class="side-nav">
 		<li class="no-padding">
+			<h2 class="logo">Tandem</h2>
 			<ul class="collapsible collapsible-accordion">
 				<li>
 					<a class="collapsible-header"><i class="material-icons">supervisor_account</i> Match</a>
@@ -81,53 +116,68 @@
 			</ul>
 			<ul class="collapsible collapsible-accordion">
 				<li>
-					<a class="collapsible-header"><i class="material-icons">playlist_add</i> Add Skills</a>
+					<a class="collapsible-header"><i class="material-icons">playlist_add</i> Add a Craft</a>
 					<div class="collapsible-body">
-						<h5>Add Skills to Work On!</h5>
-						<a id="showCrafts" class="btn waves-effect waves-light matchBtn  hoverable theme-color-primary"><i class="material-icons">playlist_add</i> Skills!</a>
+						<h5>Hone a New Craft!</h5>
+						<a id="showCrafts" class="btn waves-effect waves-light matchBtn  hoverable theme-color-primary"><i class="material-icons">playlist_add</i> All Crafts</a>
 					</div>
 				</li>
 			</ul>
 			<ul class="collapsible collapsible-accordion">
 				<li>
-					<a class="collapsible-header"><i class="material-icons">library_add</i> Score</a>
+					<a class="collapsible-header"><i class="material-icons">library_add</i> Hours</a>
 					<div class="collapsible-body">
-						<h5>Add Skills to Work On!</h5>
+						<h5>Track Your Hours!</h5>
 						<ul>
 							{{#each info.basicInfo.Crafts}}
 								<li>
 									<a class="btn waves-effect waves-light theme-color-primary" onClick="create_Score_Modal('{{this.craft}}')"> {{this.craft}}</a></li>
-								</li>
-							{{/each}}
+				        </li>
+				      {{/each}}
+				    </ul>
+				  </div>
+		    </li>
+		  </ul>
+      <!-- === Set a Goal=== -->
+      <ul class="collapsible collapsible-accordion">
+				<li>
+					<a class="collapsible-header"><i class="material-icons">library_add</i> Set Goal</a>
+					<div class="collapsible-body">
+						<h5>Set a Goal!</h5>
+						<ul>
+							{{#each info.basicInfo.Crafts}}
+								<li>
+									<a class="btn waves-effect waves-light theme-color-primary" onClick="create_Goal_Modal('{{this.craft}}')"> {{this.craft}}</a></li>
+				        </li>
+				      {{/each}}
+				    </ul>
+				  </div>
+		    </li>
+		  </ul>
+			<!-- ========Nav Settings Btn======== -->
+			<ul class="collapsible collapsible-accordion">
+				<li>
+					<a class="collapsible-header"><i class="material-icons">settings</i> Settings</a>
+					<div class="collapsible-body">
+						<ul>
+							<li><a href="#!" id="userSignOut">Sign Out</a></li>
+							<li><a href="#!" id="updateProfileModal">Profile Photo</a></li>
 						</ul>
-				</div>
-		</li>
-		</ul>
+					</div>
+				</li>
+			</ul>
+			<!-- ======== [END] Nav Settings Btn======== -->
 		</li>
 	</ul>
 </div>
 {{!--================ SCORE Modals Div================!--}}
 <div id="scoreModals"></div>
+{{!--================ Goal Modals Div================!--}}
+<div id="goalModal"></div>
 
 {{!--==========update profile Image MODAL===========--}}
-<div id="updateProfile" class="modal bottom-sheet">
-	<div class="modal-content">
-		<div class="container">
-			<div class="row">
-				<div class="col s12">
-					<h4>Edit your Info</h4>
-					<hr>
-					<h5>upload image</h5>
-					<form action="/image-upload" method="POST" enctype="multipart/form-data">
-						Select an image to upload:
-						<input type="file" name="image">
-						<input name="username" type="hidden" value="{{info.basicInfo.user_name}}">
-						<input id="imageUploadSubmit" type="submit">
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+<div id="updateProfileImage" class="modal">
+	{{> avatarModalHomePartial}}
 </div>
 {{!--===============MODALS FOR SETTING SKILLS=========================--}}
 <div id="setCraftModal" class="modal">
@@ -141,55 +191,56 @@
 </div>
 
 {{!--===============Modal: ADDING Craft=================--}}
-<div id="addCraftModals"><div>
+<div id="addCraftModals">
+	<div>
 
-{{!--Div holds dynamically created Craft Options Modal--}}
-<div id="craftOptionsModal"></div>
-{{!--================BOTTOM MODAL FOR DISPLAYING MATCHES===================--}}
-<div id="matchesModal" class="modal bottom-sheet">
-	<div class="modal-content">
-		<div class="container">
-			<div class="row">
-				<div class="col s12">
-					<h4 class="center-align">Your Matches</h4>
-					<hr>
+		{{!--Div holds dynamically created Craft Options Modal--}}
+		<div id="craftOptionsModal"></div>
+		{{!--================BOTTOM MODAL FOR DISPLAYING MATCHES===================--}}
+		<div id="matchesModal" class="modal bottom-sheet">
+			<div class="modal-content">
+				<div class="container">
 					<div class="row">
-						<div class="col s12 m6">
-							<ul class="collection" id="matchContentInsert"></ul>
-						</div>
-						<div class="col s12 m6">
-							<div id="yelpContent">
+						<div class="col s12">
+							<h4 class="center-align">Your Matches</h4>
+							<hr>
+							<div class="row">
+								<div class="col s12 m6">
+									<ul class="collection" id="matchContentInsert"></ul>
+								</div>
+								<div class="col s12 m6">
+									<div id="yelpContent">
 
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
 
-{{!--===============MESSAGING MODAL=========================--}}
-<div id="messagingModal" class="modal">
-	<div id="preloaderInsert">
-		<div class="indeterminate"></div>
-	</div>
-	<div class="modal-content">
-		<div class="container">
-			<div class="row">
-				<div class="col s2" id="messageUserImg"></div>
-				<div class="col s6" id="messageUserName"></div>
+		{{!--===============MESSAGING MODAL=========================--}}
+		<div id="messagingModal" class="modal">
+			<div id="preloaderInsert">
+				<div class="indeterminate"></div>
 			</div>
-			<div class="row">
-				<div class="col s12">
-					<form class="messagingArea">
-						<textarea></textarea>
-					</form>
+			<div class="modal-content">
+				<div class="container">
+					<div class="row">
+						<div class="col s2" id="messageUserImg"></div>
+						<div class="col s6" id="messageUserName"></div>
+					</div>
+					<div class="row">
+						<div class="col s12">
+							<form class="messagingArea">
+								<textarea></textarea>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
+			<div class="modal-footer">
+				<a class=" modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+			</div>
 		</div>
-	</div>
-	<div class="modal-footer">
-		<a class=" modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-	</div>
-</div>

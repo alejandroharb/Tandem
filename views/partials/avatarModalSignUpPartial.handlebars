@@ -1,0 +1,54 @@
+<div class="modal-content">
+    <div class="container">
+        <div class="row">
+          <h3>Upload Your Own Image</h3>
+          <form action="/image-upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image">
+            <input name="username" type="hidden" value="{{info.basicInfo.user_name}}">
+            <input class="btn theme-color-primary" id="imageUploadSubmit" type="submit">
+          </form>
+          <hr class="avatarDivider"/>
+          <h4>Or</h4>
+          <hr class="avatarDivider"/>
+        </div>
+        <div class="row">
+            <h3> Choose an Avatar </h3>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-female-blonde.png')"><img src="/assets/img/avatars/avatar-female-blonde.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-female-curly.png')"><img src="/assets/img/avatars/avatar-female-curly.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-female-dark-long.png')"><img src="/assets/img/avatars/avatar-female-dark-long.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-female-dark-short.png')"><img src="/assets/img/avatars/avatar-female-dark-short.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-female-hairband.png')"><img src="/assets/img/avatars/avatar-female-hairband.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-female-short.png')"><img src="/assets/img/avatars/avatar-female-short.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-female.png')"><img src="/assets/img/avatars/avatar-female.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-male-brown.png')"><img src="/assets/img/avatars/avatar-male-brown.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-male-glasses.png')"><img src="/assets/img/avatars/avatar-male-glasses.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-male-gray.png')"><img src="/assets/img/avatars/avatar-male-gray.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-male-mustage.png')"><img src="/assets/img/avatars/avatar-male-mustage.png" /></a>
+            </div>
+            <div class="col s4 m3 avatarImg">
+              <a onclick="handleAvatarUpload('avatar-male-red.png')"><img src="/assets/img/avatars/avatar-male-red.png" /></a>
+            </div>
+        </div>
+    </div>
+</div>

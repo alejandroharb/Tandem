@@ -28,6 +28,10 @@ router.get('/home/:id', (req, res) => {
 
 router.post('/login', (req, res) => {
   authController.login(req, res);
-})
+});
+
+router.put('/avatar', (req, res) => {
+  authController.saveAvatar(req, res);
+});
 
 module.exports = router;
