@@ -8,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
                 isAlpha: true
             }
         },
+        first_name: DataTypes.STRING,
         craft: {
             type: DataTypes.STRING,
             allowNull: false,

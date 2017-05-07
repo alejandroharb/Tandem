@@ -48,7 +48,7 @@
 <!-- Main Body Container -->
 <div class="container">
 	<div class="row">
-		<div class="col s12 m4">
+		<div class="col s6 m3">
 			{{!--=======Polar Area Chart=======--}}
 			<div class="polar-chart-wrapper wrappers">
 				<div class="row">
@@ -73,8 +73,26 @@
 				</div>
 			</div>
 		</div>
+		<!-- ============= User Activity ============= -->
+		<div class="col s6 m3">
+			<div class="row">
+				<div class="col s12">
+					<ul class="collection">
+						{{#each info.activity}}
+							<li class="collection-item avatar">
+								<img src="/uploads/images/{{this.image}}" alt="" class="circle">
+								<span class="title">{{this.first_name}}</span>
+								<p>Did {{this.hours_accomplished}} hours for {{this.craft}}  <br>
+					         in blank Days!
+					      </p>
+							</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</div>
 		<!-- ============= Line Charts (collapsibles)============= -->
-		<div class="col s12 m8 chartContainer">
+		<div class="col s12 m6 chartContainer">
 			<div class="chart-wrapper">
 				<div id="user-name" value="{{info.basicInfo.user_name}}"></div>
 				<ul class="collapsible popout" data-collapsible="accordion">

@@ -37,7 +37,7 @@ const craftsController = {
       .then(function (data) {
         var address = data.dataValues.address
         //use geocode function with callback to find city synchronously
-        helpers.findCity(data, address, (city) => {
+        helpers.findCity(null, address, (city) => {
           Models.Craft.findAll({
               where: [{
                 city: city
@@ -139,13 +139,14 @@ const craftsController = {
         }
       })
       .then((response) => {
-        console.log("----address----");
-        console.log(response.dataValues.address);
+        console.log("----first_name----");
+        console.log(response.dataValues.first_name);
         //function uses geocoder to convert user's address into a city
         helpers.findCity(clientPostData, response.dataValues.address, (city) => {
           //--- database save craft----
           Models.Craft.create({
             UserId: response.dataValues.id,
+            first_name: response.dataValues.first_name,
             user_name: req.params.user,
             craft: req.params.craft,
             year_experience: clientPostData.year_experience,
@@ -267,8 +268,11 @@ const craftsController = {
       where: {
         user_name: user,
         craft: craft
-      }
+      },
+      include: [Models.User]
     }).then( (dbCraft) => {
+      console.log("==========right here Mayne=========")
+      console.log(dbCraft.dataValues);
       //if a goal is set, update with latest scores
       let hourInput = parseInt(req.body.hours);
       let updatedGoalHours = parseInt(dbCraft.goal_hours_accomplished) + hourInput;
@@ -282,9 +286,10 @@ const craftsController = {
         console.log("goal is set")
         //if goal achieved && time not expired, update database and inform client
         if(dbCraft.goal_hours_set <= updatedGoalHours && dateDifference > 0) { // - [ ] also need to add condition on date
-          console.log("goal achieved!!")
+          console.log("---------goal achieved!!---------")
           totalGoals ++ //update goals set
           goalsAccomplished ++ //update goals accomplished
+          craftsController.addActivity(dbCraft.dataValues); //========adding to Activity Table========
           Models.Craft.update({
             goal_set: false,
             goal_hours_set: 0,
@@ -349,6 +354,36 @@ const craftsController = {
         }
       }
     });
+  },
+
+  fetchGoalActivity: (address, cb) => {
+    //use geocode function with callback to find city synchronously
+    return helpers.findCity(null, address, (city) => {
+      console.log("===========in fetchGoalActivity function: city => " + city);
+      Models.Activity.findAll({
+          where: { city: city}
+        })
+        .then((dbCraft) => {
+          console.log(dbCraft);
+           cb(dbCraft);
+        });
+    });
+  },
+
+  addActivity: (data) => {
+    let date = moment();
+    Models.Activity.create({
+      first_name: data.User.first_name,
+      user_name: data.User.user_name,
+      image: data.User.image,
+      craft: data.craft,
+      city: data.city,
+      hours_accomplished: data.goal_hours_set,
+      date: date
+    })
+    .then( () => {
+
+    })
   }
 }
 

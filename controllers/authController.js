@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const admin = require("firebase-admin");
 const serviceAccount = require('./../config/fbServiceAccountConfig.js');
+const craftsController = require('./craftController');
 // const firebase = require('./../config/firebaseConfig.js');
 const Models = require('../models');
 const geocoder = require('geocoder');
@@ -98,11 +99,15 @@ const authController = {
             include: [Models.Craft] //include all user's crafts
         })
         .then(function (dbUser) {
-          userData.basicInfo = dbUser.dataValues;
-          res.render('user-home', {
-            info: userData
+          //fetching activity data
+          craftsController.fetchGoalActivity(dbUser.dataValues.address, function(activityData) {
+            userData.basicInfo = dbUser.dataValues;
+            userData.activity = activityData;
+            res.render('user-home', {
+              info: userData
+            });
           });
-        })
+        });
     } else {
       // res.render("unauthorized", {
       //   title: "Unauthorized Access Page",
@@ -117,7 +122,7 @@ const authController = {
     Models.User.findOne({
       where: { user_name: req.body.username, password: req.body.password }
     }).then( (dbUser) => {
-      console.log(dbUser);
+      // console.log(dbUser);
       if (dbUser) {
         req.session.uid = dbUser.dataValues.user_name; //setting session to user's name
         res.send(dbUser.dataValues.user_name);
