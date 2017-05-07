@@ -363,9 +363,8 @@ const craftsController = {
       Models.Activity.findAll({
           where: { city: city}
         })
-        .then((dbCraft) => {
-          console.log(dbCraft);
-           cb(dbCraft);
+        .then((dbActivity) => {
+           cb(dbActivity.reverse());
         });
     });
   },
