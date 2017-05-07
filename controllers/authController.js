@@ -28,15 +28,6 @@ const authController = {
     var data = req.body;
     console.log("creating profile");
     console.log(data);
-    //---!!!refactor this code!!!---
-    var city = geocoder.geocode(data.address, function (err, data) {
-      var locData = data.results[0].address_components;
-      for (var i = 0; i < locData.length; i++) {
-        if (locData[i].types[0] === "locality") {
-          return locData[i].long_name;
-        }
-      }
-    });
     Models.User.findOrCreate({
       where: {
         user_name: data.user
@@ -48,15 +39,12 @@ const authController = {
         last_name: data.last,
         user_name: data.username,
         address: data.address,
-        city: city, //from function above
         image: "blank-person.png",
         description: data.description
       }
     }).spread(function (user, created) {
       //check to see if it exists already
       //redirect user to main page
-      // console.log("created: " + created);
-      console.log(created)
       if (created) {
         console.log("user data created!")
         console.log(user)
