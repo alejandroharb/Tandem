@@ -1,8 +1,9 @@
 //global reference to user's username
 let user = document.getElementById('user_name').getAttribute('data-user');
-  var database = firebase.database();
+var database = firebase.database();
+
 //opens modal for respective craft
-let display_Craft_Add_Modal = (craft, username) => {
+let display_Craft_Add_Modal = (craft) => {
     //clear element children before appending
     let modalNode = document.getElementById('addCraftModals');
     while (modalNode.firstChild) {
@@ -12,7 +13,7 @@ let display_Craft_Add_Modal = (craft, username) => {
     let id = '#setCraft_' + craft;
     $.ajax({
         method: "GET",
-        url: '/api/crafts/addCraft/' + craft + '/' + username
+        url: '/api/crafts/addCraft/' + craft + '/' + user
     }).then((response) => {
 
         $('#addCraftModals').append(response);
@@ -28,7 +29,7 @@ let display_Craft_Add_Modal = (craft, username) => {
 let handle_Add_Craft_Submit = (e) => {
     e.preventDefault();
     //collect data
-    let username = $('#username').val();
+    
     let years = parseInt($('#YearsExperience').val());
     let rating = parseInt($('input[name="rating"]:checked').val());
     let craft = $('#craft').val();
@@ -36,7 +37,7 @@ let handle_Add_Craft_Submit = (e) => {
         year_experience: years,
         experience_rating: rating
     }
-    let url = '/api/home/choices/' + craft + '/' + username;
+    let url = '/api/home/choices/' + craft + '/' + user;
     //AJAX POST
     $.post(url, clientPostData, function (response) {
         Materialize.toast("Saved", 3000, 'themeToast');

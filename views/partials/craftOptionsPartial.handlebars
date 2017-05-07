@@ -1,58 +1,26 @@
-<div class="container">
+<div id="setCraftModal" class="modal">
+	<div class="modal-content">
+		<div class="container">
 			<div class="row">
 				<div class="col s12">
 					<h4 class="center-align">Which craft do you want to hone?</h4>
 					<hr>
 					<div class="row">
-						<div class="col s4">
-							<div onClick="display_Craft_Add_Modal('Golf', '{{lowercase info.basicInfo.user_name}}')" class="card hoverable card-btn">
-								<div class="card-image">
-									<img src="/assets/img/golf.jpeg">
-									<span class="card-title">Golf</span>
-								</div>
+						{{#each data.crafts}}
+						<div class="col s3">
+							<div onClick="display_Craft_Add_Modal('{{this}}')" class="craftImg">
+								<img src="/assets/img/crafts/{{lowercase this}}.svg">
+								<p class="craft-title">{{this}}</p>
 							</div>
+							
 						</div>
-						<div class="col s4">
-							<div onClick="display_Craft_Add_Modal('Guitar', '{{lowercase info.basicInfo.user_name}}')" class="card hoverable  card-btn">
-								<div class="card-image">
-									<img src="/assets/img/guitar.jpeg">
-									<span class="card-title">Guitar</span>
-								</div>
-							</div>
-						</div>
-						<div class="col s4">
-							<div onClick="display_Craft_Add_Modal('Spanish', '{{lowercase info.basicInfo.user_name}}')" class="card hoverable  card-btn">
-								<div class="card-image">
-									<img src="/assets/img/spanish.jpg">
-									<span class="card-title">Spanish</span>
-								</div>
-							</div>
-						</div>
-						<div class="col s4">
-							<div onClick="display_Craft_Add_Modal('Chess', '{{lowercase info.basicInfo.user_name}}')" class="card hoverable  card-btn">
-								<div class="card-image">
-									<img src="/assets/img/chess1.jpeg">
-									<span class="card-title">Chess</span>
-								</div>
-							</div>
-						</div>
-						<div class="col s4">
-							<div onClick="display_Craft_Add_Modal('Photography', '{{lowercase info.basicInfo.user_name}}')" class="card hoverable  card-btn">
-								<div class="card-image">
-									<img src="/assets/img/photography.jpg">
-									<span class="card-title">Photography</span>
-								</div>
-							</div>
-						</div>
-						<div class="col s4">
-							<div onClick="display_Craft_Add_Modal('Tennis', '{{lowercase info.basicInfo.user_name}}')" class="card hoverable  card-btn">
-								<div class="card-image">
-									<img src="/assets/img/tennis.jpg">
-									<span class="card-title">Tennis</span>
-								</div>
-							</div>
-						</div>
+						{{/each}}
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="modal-footer">
+		<a class=" modal-action modal-close waves-effect waves-green btn-flat">Done</a>
+	</div>
+</div>

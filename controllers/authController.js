@@ -87,12 +87,36 @@ const authController = {
   },
 
   authenticateUser: (req, res) => {
+    var userData = {};//temporarily here for testing
     console.log("I should get the session id here ", req.session.uid);
-    if (req.session.uid === req.params.id) { //security: checking session match
-      console.log("user has been authenticated");
-      var userData = {};
-      //----query data for this specific profile-----
-      Models.User.findOne({
+    // if (req.session.uid === req.params.id) { //security: checking session match
+    //   console.log("user has been authenticated");
+    //   var userData = {};
+    //   //----query data for this specific profile-----
+    //   Models.User.findOne({
+    //       where: {
+    //         user_name: req.params.id
+    //       },
+    //         include: [Models.Craft] //include all user's crafts
+    //     })
+    //     .then(function (dbUser) {
+    //       //fetching activity data
+    //       craftsController.fetchGoalActivity(dbUser.dataValues.address, function(activityData) {
+    //         userData.basicInfo = dbUser.dataValues;
+    //         userData.activity = activityData;
+    //         res.render('user-home', {
+    //           info: userData
+    //         });
+    //       });
+    //     });
+    // } else {
+    //   // res.render("unauthorized", {
+    //   //   title: "Unauthorized Access Page",
+    //   //   layout: "front-page"
+    //   // });
+    //   res.redirect('/');
+    // }
+    Models.User.findOne({
           where: {
             user_name: req.params.id
           },
@@ -108,13 +132,6 @@ const authController = {
             });
           });
         });
-    } else {
-      // res.render("unauthorized", {
-      //   title: "Unauthorized Access Page",
-      //   layout: "front-page"
-      // });
-      res.redirect('/');
-    }
 
   },
 

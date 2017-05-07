@@ -10,7 +10,7 @@ let firebase = require('./../config/firebaseConfig.js');
 
 let database = firebase.database();
 
-
+let craftList = ["Golf", "Guitar", "Spanish", "Chess", "Photography", "Tennis"];
 
 const craftsController = {
   fetchCraftMatchOptions: (req, res) => {
@@ -152,7 +152,7 @@ const craftsController = {
             year_experience: clientPostData.year_experience,
             experience_rating: clientPostData.experience_rating,
             city: city,
-            total_goals:0,
+            total_goals: 0,
             goals_accomplished: 0
           }).then(function (data) {
             res.json(data); // send saved data back to front-end
@@ -161,12 +161,44 @@ const craftsController = {
       })
   },
 
-  fetchModal: (req, res) => {
+  fetchCraftAddOptionsModal: (req, res) => {
+    let dataPackage = {};
+    let craftDisplayList = [];
+    Models.User.findOne({
+        where: {
+          user_name: req.params.user
+        },
+        include: [Models.Craft]
+      })
+      .then((dbUser) => {
+        let userCrafts = dbUser.dataValues.Crafts;
+        craftList.forEach((listElem, index) => {
+          for (var i = 0; i < userCrafts.length; i++) {
+            let userCraft = userCrafts[i].dataValues.craft;
+            if (userCraft === listElem) {
+              break;
+            } else {
+              if (i == userCrafts.length - 1) {
+                craftDisplayList.push(listElem);
+              }
+            }
+
+          }
+        })
+        dataPackage.crafts = craftDisplayList;
+        res.render("partials/craftOptionsPartial", {
+          data: dataPackage,
+          layout: false
+        });
+      });
+
+  },
+
+  fetchAddCraftModal: (req, res) => {
     let userCraftData = {
       craft: req.params.craft,
       username: req.params.username
     }
-    console.log(userCraftData);
     res.render("partials/addCraftModalPartial", {
       userData: userCraftData,
       layout: false
@@ -186,63 +218,27 @@ const craftsController = {
 
   setCraftGoal: (req, res) => {
     Models.Craft.update({
-      goal_hours_set:req.body.hours,
-      goal_date:req.body.date,
-      goal_set:true
-    },{
+      goal_hours_set: req.body.hours,
+      goal_date: req.body.date,
+      goal_set: true
+    }, {
       where: {
         user_name: req.params.user,
         craft: req.params.craft
       }
-    }).then( (dbCraft) => {
+    }).then((dbCraft) => {
       console.log(dbCraft)
       res.end();
     })
   },
 
-  fetchScores: (req, res) => {
-    let craftArr = [];
-    // Models.User.findOne({
-    //     where: {
-    //       user_name: req.params.user
-    //     },
-    //     include: [Models.Craft]
-    //   })
-    //   .then((dbUser) => {
-    //     dbUser.dataValues.Crafts.forEach((elem, index) => {
-    //       craftArr.push(elem.craft);
-    //     });
-    //     console.log(craftArr);
-
-    //     let scoreArrays = [];
-    //     for (let craft in craftsArr) {
-    //       var ref = database.ref("Scores/Users/" + user + "/" + craft);
-
-    //       ref.once('value').then(function (snapshot) {
-    //         var dataArray = snapshot.val();
-    //         console.log(dataArray);
-    //         let scorePkg = new ScoreDataPackage(craft, dataArray);
-    //         scoreArrays.push(scorePkg);
-    //         console.log(scoreArrays);
-    //       });
-
-    //     };
-    //     res.send(scoreArrays);
-    //   });
-    // let user = req.params.user;
-    // var ref = database.ref("Scores/Users/" + user);
-    // ref.once('value').then(function (snapshot) {
-    //     res.send("snapshot");
-    // });
-  },
-
   fetchCraftStuff: (req, res, user, craft, cb) => {
     var username, userCraft;
-    if(req) {
+    if (req) {
       username = req.params.user;
       userCraft = req.params.craft;
     }
-    if(user && craft) {
+    if (user && craft) {
       username = user;
       userCraft = craft;
     }
@@ -251,11 +247,11 @@ const craftsController = {
         user_name: username,
         craft: userCraft
       }
-    }).then( (dbCraft) => {
-      if(req) {
+    }).then((dbCraft) => {
+      if (req) {
         res.send(dbCraft);
       }
-      if(user && craft) {
+      if (user && craft) {
         cb(dbCraft);
       }
     })
@@ -270,7 +266,7 @@ const craftsController = {
         craft: craft
       },
       include: [Models.User]
-    }).then( (dbCraft) => {
+    }).then((dbCraft) => {
       console.log("==========right here Mayne=========")
       console.log(dbCraft.dataValues);
       //if a goal is set, update with latest scores
@@ -282,27 +278,27 @@ const craftsController = {
       console.log("date at time of hour submit: " + req.body.date)
       let dateDifference = moment(dbCraft.goal_date).diff(req.body.date); //date difference calculated
       console.log("date difference => " + dateDifference);
-      if(dbCraft.goal_set) {
+      if (dbCraft.goal_set) {
         console.log("goal is set")
         //if goal achieved && time not expired, update database and inform client
-        if(dbCraft.goal_hours_set <= updatedGoalHours && dateDifference > 0) { // - [ ] also need to add condition on date
+        if (dbCraft.goal_hours_set <= updatedGoalHours && dateDifference > 0) { // - [ ] also need to add condition on date
           console.log("---------goal achieved!!---------")
-          totalGoals ++ //update goals set
-          goalsAccomplished ++ //update goals accomplished
+          totalGoals++ //update goals set
+          goalsAccomplished++ //update goals accomplished
           craftsController.addActivity(dbCraft.dataValues); //========adding to Activity Table========
           Models.Craft.update({
             goal_set: false,
             goal_hours_set: 0,
             goal_hours_accomplished: 0,
-            goal_date:null,
-            total_goals:totalGoals,
+            goal_date: null,
+            total_goals: totalGoals,
             goals_accomplished: goalsAccomplished
-          },{
+          }, {
             where: {
               user_name: user,
               craft: craft
             }
-          }).then( () => {
+          }).then(() => {
             //build response package
             let responsePackage = new helpers.GoalPackage(true, false, dbCraft.total_goals, dbCraft.goals_accomplished);
             res.send(responsePackage);
@@ -310,17 +306,17 @@ const craftsController = {
 
         }
         //if goal not accomplished, and goal not expired
-        if(dbCraft.goal_hours_set > updatedGoalHours && dateDifference > 0) {
+        if (dbCraft.goal_hours_set > updatedGoalHours && dateDifference > 0) {
           console.log("goal NOT achieved and NOT expired!!")
           Models.Craft.update({
             goal_hours_accomplished: updatedGoalHours
-          },{
+          }, {
             where: {
-              user_name:user,
+              user_name: user,
               craft: craft
             }
-          }).then( () => {
-            craftsController.fetchCraftStuff(null, null, user, craft, function(data) {
+          }).then(() => {
+            craftsController.fetchCraftStuff(null, null, user, craft, function (data) {
               console.log(data);
               //build response package
               let responsePackage = new helpers.GoalPackage(false, false, data.total_goals, data.goals_accomplished);
@@ -332,20 +328,20 @@ const craftsController = {
           })
         }
         //if goal not accomplished && goal has expired
-        if(dbCraft.goal_hours_set > updatedGoalHours && dateDifference < 0){
-          totalGoals ++ //update goals set
+        if (dbCraft.goal_hours_set > updatedGoalHours && dateDifference < 0) {
+          totalGoals++ //update goals set
           Models.Craft.update({
             goal_set: false,
             goal_hours_set: 0,
             goal_hours_accomplished: 0,
-            goal_date:null,
-            total_goals:totalGoals
-          },{
+            goal_date: null,
+            total_goals: totalGoals
+          }, {
             where: {
               user_name: req.params.user,
               craft: craft
             }
-          }).then( (dbCraft) => {
+          }).then((dbCraft) => {
             //build response package
             let responsePackage = new helpers.GoalPackage(false, true, dbCraft.total_goals, dbCraft.goals_accomplished);
             //inform client
@@ -361,10 +357,12 @@ const craftsController = {
     return helpers.findCity(null, address, (city) => {
       console.log("===========in fetchGoalActivity function: city => " + city);
       Models.Activity.findAll({
-          where: { city: city}
+          where: {
+            city: city
+          }
         })
         .then((dbActivity) => {
-           cb(dbActivity.reverse());
+          cb(dbActivity.reverse());
         });
     });
   },
@@ -372,17 +370,17 @@ const craftsController = {
   addActivity: (data) => {
     let date = moment();
     Models.Activity.create({
-      first_name: data.User.first_name,
-      user_name: data.User.user_name,
-      image: data.User.image,
-      craft: data.craft,
-      city: data.city,
-      hours_accomplished: data.goal_hours_set,
-      date: date
-    })
-    .then( () => {
+        first_name: data.User.first_name,
+        user_name: data.User.user_name,
+        image: data.User.image,
+        craft: data.craft,
+        city: data.city,
+        hours_accomplished: data.goal_hours_set,
+        date: date
+      })
+      .then(() => {
 
-    })
+      })
   }
 }
 

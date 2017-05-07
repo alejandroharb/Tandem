@@ -12,8 +12,12 @@ router.get('/match/:craft/:user', (req, res) => {
   craftsController.fetchUserMatches(req, res);
 });
 
-router.get('/addCraft/:craft/:username', (req, res) => {
-  craftsController.fetchModal(req, res);
+router.get('/addCraft/:craft/:user', (req, res) => {
+  craftsController.fetchAddCraftModal(req, res);
+});
+
+router.get('/craft-options/:user', (req, res) => {
+  craftsController.fetchCraftAddOptionsModal(req, res);
 });
 
 router.get('/goalModal/:craft/:user', (req, res) => {
