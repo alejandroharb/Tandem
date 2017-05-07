@@ -13,31 +13,28 @@
 				</div>
 				<div class="col s9 userMenu">
 					<div class="row">
-						<div class="col m4">
-							<!-- Dropdown Trigger -->
-              <div class="craftView">
-                <div class="collection with-header craftViewCollection">
-                    <h3>Your Craft</h3>
-                  {{#each info.basicInfo.Crafts}}
-                    <a id="{{this.craft}}Collection" class="collection-item craft-{{@index}}" onClick="displayStats('{{this.craft}}')"> {{this.craft}}</a>
-                  {{/each}}
-                </div>
-              </div>
-              <ul id='craftMenu' class='dropdown-content'>
-                {{#each info.basicInfo.Crafts}}
-                  <li><a href="#!">{{this.craft}}</a></li>
-                  <li class="divider"></li>
-                {{/each}}
-              </ul>
-						</div>
+						<!-- Goal Deadline Tracker -->
 						<div class="col m4">
               <h3>Time Remaining</h3>
               <div id="craftGoalDeadline"></div>
 						</div>
+						<!-- goal Progress donut chart -->
 						<div class="col m4">
               <div class="goalChartDiv">
 								<canvas id="craftGoal" width="150" height="150"></canvas>
 							</div>
+						</div>
+						<!-- Crafts Focus Polar Chart -->
+						<div class="col m4">
+								<div class="polar-chart-wrapper wrappers">
+									<div class="row">
+										<div class="col s12">
+											<div>
+												<canvas id="craftsPolarChart" width="200" height="200"></canvas>
+											</div>
+										</div>
+									</div>
+								</div>
 						</div>
 					</div>
 
@@ -46,39 +43,14 @@
 		</div>
 	</div>
 </header>
-<!-- Main Body Container -->
+<!-- =================Main Body Container================= -->
 <div class="container">
 	<div class="row">
+		<!-- === User Activity === -->
 		<div class="col s6 m3">
-			{{!--=======Polar Area Chart=======--}}
-			<div class="polar-chart-wrapper wrappers">
-				<div class="row">
-					<div class="col s12">
-						<div>
-							<canvas id="craftsPolarChart" width="200" height="200"></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-			{{!--=======User Activity=======--}}
-			<div class="user-activity-wrapper wrappers">
-				<div class="row">
-					<div class="col s12">
-						<h2 class="center-align">Progress Feed</h2>
-						<hr>
-					</div>
-					<div class="col s12">
-
-						<ul class="collection" id="userActivityInsert"></ul>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- ============= User Activity ============= -->
-		<div class="col s6 m3">
-			<div class="row">
-				<div class="col s12">
+			<div class="activity-wrapper">
 					<ul class="collection">
+						<h4 class="collection-header">Nearby Goal Successes</h4>
 						{{#each info.activity}}
 							<li class="collection-item avatar">
 								<img src="/uploads/images/{{this.image}}" alt="" class="circle">
@@ -89,10 +61,9 @@
 							</li>
 						{{/each}}
 					</ul>
-				</div>
 			</div>
 		</div>
-		<!-- ============= Line Charts (collapsibles)============= -->
+		<!-- ===== Line Charts (collapsibles) ===== -->
 		<div class="col s12 m6 chartContainer">
 			<div class="chart-wrapper">
 				<div id="user-name" value="{{info.basicInfo.user_name}}"></div>
@@ -111,6 +82,17 @@
 				</ul>
 			</div>
 		</div>
+		<!-- === User Craft Controller (panel where user can choose what craft to view) === -->
+		<div class="col s12 m3">
+			<div class="craftView">
+				<div class="collection">
+						<h4 class="collection-header">Your Craft</h4>
+					{{#each info.basicInfo.Crafts}}
+						<a id="{{this.craft}}Collection" class="collection-item craft-{{@index}}" onClick="displayStats('{{this.craft}}')"> {{this.craft}}</a>
+					{{/each}}
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {{!--============= Side Nav =============--}}
@@ -118,6 +100,7 @@
 	<ul id="slide-out" class="side-nav">
 		<li class="no-padding">
 			<h2 class="logo">Tandem</h2>
+			<!-- === Match Feature === -->
 			<ul class="collapsible collapsible-accordion">
 				<li>
 					<a class="collapsible-header"><i class="material-icons">supervisor_account</i> Match</a>
@@ -125,7 +108,7 @@
 						<h5>Practice with Others!</h5>
 						<p>We match you according to:</p>
 						<ul>
-							<li><i class="material-icons">color_lens</i> Hobby</li>
+							<li><i class="material-icons">color_lens</i> craft</li>
 							<li><i class="material-icons">assessment</i> Experience Level</li>
 							<li><i class="material-icons">location_on</i> Location</li>
 						</ul>
@@ -142,6 +125,7 @@
 					</div>
 				</li>
 			</ul>
+			<!-- === Save Hours === -->
 			<ul class="collapsible collapsible-accordion">
 				<li>
 					<a class="collapsible-header"><i class="material-icons">library_add</i> Hours</a>
@@ -173,7 +157,7 @@
 				  </div>
 		    </li>
 		  </ul>
-			<!-- ========Nav Settings Btn======== -->
+			<!-- == Nav Settings === -->
 			<ul class="collapsible collapsible-accordion">
 				<li>
 					<a class="collapsible-header"><i class="material-icons">settings</i> Settings</a>
@@ -185,23 +169,21 @@
 					</div>
 				</li>
 			</ul>
-			<!-- ======== [END] Nav Settings Btn======== -->
 		</li>
 	</ul>
 </div>
-{{!--================ SCORE Modals Div================!--}}
+{{!--======= Modal: Score add =======!--}}
 <div id="scoreModals"></div>
-{{!--================ Goal Modals Div================!--}}
+{{!--======= Modal: Goal add =======!--}}
 <div id="goalModal"></div>
 
-{{!--==========update profile Image MODAL===========--}}
+{{!--======= Modal: Update Image =======--}}
 <div id="updateProfileImage" class="modal">
 	{{> avatarModalHomePartial}}
 </div>
-{{!--===============MODALS FOR SETTING SKILLS=========================--}}
+{{!-- ======= Modal: Craft Options =======--}}
 <div id="setCraftModal" class="modal">
 	<div class="modal-content">
-		{{!---------------handlebars: display all craft options----------------}}
 		{{> craftOptionsPartial}}
 	</div>
 	<div class="modal-footer">
@@ -209,57 +191,32 @@
 	</div>
 </div>
 
-{{!--===============Modal: ADDING Craft=================--}}
-<div id="addCraftModals">
-	<div>
+{{!--======= Modal: Add Craft =======--}}
+<div id="addCraftModals"><div>
 
-		{{!--Div holds dynamically created Craft Options Modal--}}
-		<div id="craftOptionsModal"></div>
-		{{!--================BOTTOM MODAL FOR DISPLAYING MATCHES===================--}}
-		<div id="matchesModal" class="modal bottom-sheet">
-			<div class="modal-content">
-				<div class="container">
+{{!--======= Modal: Craft Options for Matches Feature =======--}}
+<div id="craftOptionsModal"></div>
+
+{{!--================BOTTOM MODAL FOR DISPLAYING MATCHES===================--}}
+<div id="matchesModal" class="modal bottom-sheet">
+	<div class="modal-content">
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					<h4 class="center-align">Your Matches</h4>
+					<hr>
 					<div class="row">
-						<div class="col s12">
-							<h4 class="center-align">Your Matches</h4>
-							<hr>
-							<div class="row">
-								<div class="col s12 m6">
-									<ul class="collection" id="matchContentInsert"></ul>
-								</div>
-								<div class="col s12 m6">
-									<div id="yelpContent">
+						<div class="col s12 m6">
+							<ul class="collection" id="matchContentInsert"></ul>
+						</div>
+						<div class="col s12 m6">
+							<div id="yelpContent">
 
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		{{!--===============MESSAGING MODAL=========================--}}
-		<div id="messagingModal" class="modal">
-			<div id="preloaderInsert">
-				<div class="indeterminate"></div>
-			</div>
-			<div class="modal-content">
-				<div class="container">
-					<div class="row">
-						<div class="col s2" id="messageUserImg"></div>
-						<div class="col s6" id="messageUserName"></div>
-					</div>
-					<div class="row">
-						<div class="col s12">
-							<form class="messagingArea">
-								<textarea></textarea>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a class=" modal-action modal-close waves-effect waves-green btn-flat">Done</a>
-			</div>
-		</div> -->
+	</div>
+</div>
