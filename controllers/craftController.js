@@ -13,7 +13,7 @@ let database = firebase.database();
 let craftList = ["Golf", "Guitar", "Spanish", "Chess", "Photography", "Tennis"];
 
 const craftsController = {
-  fetchCraftMatchOptions: (req, res) => {
+  fetchMatchOptions: (req, res) => {
     Models.User.findOne({
         where: {
           user_name: req.params.user
@@ -78,7 +78,7 @@ const craftsController = {
               }
 
               function gatherDistData(index) {
-                // console.log("startPoint: " + startPoint)
+                
                 var destination = dbCraft[index].dataValues.User.address;
                 var username = dbCraft[index].dataValues.user_name;
                 var name = dbCraft[index].dataValues.User.first_name + " " + dbCraft[index].dataValues.User.last_name;
@@ -130,8 +130,6 @@ const craftsController = {
 
   addCraft: (req, res) => {
     let clientPostData = req.body;
-    console.log('----client post data----');
-    console.log(clientPostData);
     Models.User
       .findOne({
         where: {
@@ -139,8 +137,6 @@ const craftsController = {
         }
       })
       .then((response) => {
-        console.log("----first_name----");
-        console.log(response.dataValues.first_name);
         //function uses geocoder to convert user's address into a city
         helpers.findCity(clientPostData, response.dataValues.address, (city) => {
           //--- database save craft----
@@ -227,7 +223,6 @@ const craftsController = {
         craft: req.params.craft
       }
     }).then((dbCraft) => {
-      console.log(dbCraft)
       res.end();
     })
   },
@@ -267,22 +262,15 @@ const craftsController = {
       },
       include: [Models.User]
     }).then((dbCraft) => {
-      console.log("==========right here Mayne=========")
-      console.log(dbCraft.dataValues);
       //if a goal is set, update with latest scores
       let hourInput = parseInt(req.body.hours);
       let updatedGoalHours = parseInt(dbCraft.goal_hours_accomplished) + hourInput;
       let totalGoals = parseInt(dbCraft.total_goals);
       let goalsAccomplished = parseInt(dbCraft.goals_accomplished);
-      console.log("goal date: " + dbCraft.goal_date);
-      console.log("date at time of hour submit: " + req.body.date)
       let dateDifference = moment(dbCraft.goal_date).diff(req.body.date); //date difference calculated
-      console.log("date difference => " + dateDifference);
       if (dbCraft.goal_set) {
-        console.log("goal is set")
         //if goal achieved && time not expired, update database and inform client
         if (dbCraft.goal_hours_set <= updatedGoalHours && dateDifference > 0) { // - [ ] also need to add condition on date
-          console.log("---------goal achieved!!---------")
           totalGoals++ //update goals set
           goalsAccomplished++ //update goals accomplished
           craftsController.addActivity(dbCraft.dataValues); //========adding to Activity Table========
@@ -307,7 +295,7 @@ const craftsController = {
         }
         //if goal not accomplished, and goal not expired
         if (dbCraft.goal_hours_set > updatedGoalHours && dateDifference > 0) {
-          console.log("goal NOT achieved and NOT expired!!")
+
           Models.Craft.update({
             goal_hours_accomplished: updatedGoalHours
           }, {
@@ -317,7 +305,7 @@ const craftsController = {
             }
           }).then(() => {
             craftsController.fetchCraftStuff(null, null, user, craft, function (data) {
-              console.log(data);
+              
               //build response package
               let responsePackage = new helpers.GoalPackage(false, false, data.total_goals, data.goals_accomplished);
               //inform client
@@ -355,7 +343,6 @@ const craftsController = {
   fetchGoalActivity: (address, cb) => {
     //use geocode function with callback to find city synchronously
     return helpers.findCity(null, address, (city) => {
-      console.log("===========in fetchGoalActivity function: city => " + city);
       Models.Activity.findAll({
           where: {
             city: city

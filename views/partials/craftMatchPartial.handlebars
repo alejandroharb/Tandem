@@ -6,18 +6,18 @@
     <div class="modal-content">
         <div class="container">
             <div class="row">
+                <h3 class="center-align">Get Matched!</h3>
+                <h5 class="center-align">Choose a Craft</h5>
                 {{#each crafts}}
-                <div class="col s4">
-                    <div onClick="handleMatching('{{this.craft}}')" class="card hoverable card-btn">
-                        <div class="card-image">
-                            <img class="circle" src="/assets/img/{{lowercase this.craft}}.jpg">
-                            <span class="card-title">{{this.craft}}</span>
-                        </div>
+                <div class="col s3">
+                    <div onClick="display_Craft_Add_Modal('{{this.dataValues.craft}}')" class="craftImg">
+                        <img src="/assets/img/crafts/{{lowercase this.dataValues.craft}}.svg">
+                        <p class="craft-title">{{this.dataValues.craft}}</p>
                     </div>
                 </div>
                 {{else}}
                 <h3>You haven't selected any crafts!</h3>
-                {{/each}}                
+                {{/each}}
             </div>
         </div>
     </div>

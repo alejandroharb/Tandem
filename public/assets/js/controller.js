@@ -146,7 +146,7 @@ let graphData = async () => {
                 labels: package.dates,
                 datasets: [
                   {
-                    type:'line',
+                    type:'bar',
                     label: 'Hours Logged',
                     data: package.scores,
                     yAxisID: "y-axis-bar",

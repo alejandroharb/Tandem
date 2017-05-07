@@ -5,7 +5,7 @@ const craftsController = require('./../controllers/craftController.js');
 
 //================= get user crafts ===================
 router.get('/match/options/:user', (req, res) => {
-  craftsController.fetchCraftMatchOptions(req,res);
+  craftsController.fetchMatchOptions(req,res);
 });
 //==========USER MATCHING==========
 router.get('/match/:craft/:user', (req, res) => {
