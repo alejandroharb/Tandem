@@ -113,7 +113,22 @@ let graphPolarChart = async () => {
           backgroundColor:["#FF6384","#4BC0C0"]
         }]
       },
-      type: 'polarArea'
+      type: 'polarArea',
+      options: {
+          title: {
+              display: true,
+              text: 'Your Craft Focus'
+          },
+          legend: {
+            display:true,
+            position:'left',
+            fullWidth:false,
+            labels:{
+              fontSize:8,
+              boxWidth:8
+            }
+          }
+      }
   });
 }
 
@@ -220,7 +235,7 @@ let calculateTimeDiff = (goalDate) => {
   let currentTime = moment();
   let timeDiff = moment(goalDate).diff(currentTime, 'hours');
   if(goalDate == null){
-    return "No Deadline Set";
+    return "No Goal";
   } else if(parseInt(timeDiff) > 24) {
     let days = Math.round(timeDiff / 24);
     return days + " Days";
@@ -259,13 +274,14 @@ let displayStats = (craft) => {
         options: {
             title: {
                 display: true,
-                text: 'Goal Tracker'
+                text: 'Goal Progress'
             },
             legend: {
               fullWidth:false,
+              position: 'left',
               labels:{
                 fontSize:8,
-                boxWidth:10
+                boxWidth:8
               }
             }
         }

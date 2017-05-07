@@ -54,21 +54,24 @@ body{
 
 }
 
-.user-activity-wrapper {
-        box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
-    position: relative;
-    border-radius: 6px;
-    margin: 35px auto 30px auto;
-    display: block;
-    padding: 15px;
-    background-color: #FAFAFA;
-    overflow-y: scroll;
-    max-height: 400px;
+.activity-wrapper{
+  background-color: #eceff1;
+  border-radius: 6px;
+  text-align: center;
 }
-
-.user-activity-wrapper h2 {
-    font-weight: 700;
-    font-size: 24px;
+.craftView {
+  background-color: #eceff1;
+  text-align: center;
+  border-radius: 6px;
+}
+.craftView .collection a.collection-item{
+  color:#607D8B;
+  cursor: pointer;
+}
+.collection-header {
+  padding:0 5px;
+  font-family: 'Merriweather', serif!important;
+  font-size: 1.6rem;
 }
 
 .header-wrapper {
@@ -77,6 +80,9 @@ body{
 }
 .userMenu{
   text-align: center;
+}
+.userMenu .row{
+  margin-bottom: 0;
 }
 .userMenu h3{
   font-size: 18px;
@@ -249,8 +255,7 @@ canvas {
 .fontCollapsible {
   font-weight: bold;
   font-size: 1.2em;
-  color: #7f8181!important;
-  /*color: #4A008D!important;*/
+  color: #000!important;
   font-family: 'Cinzel', serif;
 }
 
@@ -345,14 +350,7 @@ canvas {
   position: absolute;
   right: 30px;
 }
-.craftView {
-  height: 175px;
-  overflow-y: scroll;
-}
-.craftView .collection a.collection-item{
-  color:#607D8B;
-  cursor: pointer;
-}
+
 .theme-color-primary{
     background-color: #579d99;
 }
@@ -362,6 +360,7 @@ canvas {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   border-bottom-left-radius: 0;
+  background-color: #eceff1;
 }
 .chart-wrapper .collapsible-body {
   border-radius: 0!important;
@@ -384,15 +383,17 @@ canvas {
   background-color: #CDDC39;
 }
 .goalChartDiv{
-  width: 150px;
-  height:150px;
+  width: 190px;
+  height:190px;
   position: relative;
   display: block;
   margin:0 auto;
 }
 .polar-chart-wrapper {
-  margin: 0.5rem 0 1rem 0;
-  border-radius: 6px;
+  margin: 0 auto;
+  width: 190px;
+  height: auto;
+  display: block;
 }
 #craftGoalDeadline p{
   font-size: 32px;
