@@ -204,6 +204,7 @@ canvas {
   background-color:#FAFAFA;
   max-height: 380px;
   border-radius: 6px;
+  width:100%;
 }
 
 .golfChartDiv canvas {
