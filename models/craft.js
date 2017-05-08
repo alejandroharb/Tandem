@@ -4,8 +4,7 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING(100),
             allowNull: false,
             validate: {
-                len: [1,100],
-                isAlpha: true
+                len: [1,100]
             }
         },
         first_name: DataTypes.STRING,
@@ -13,7 +12,6 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                isAlpha: true,
                 len: [1,100]
             }
         },
@@ -37,7 +35,6 @@ module.exports = function(sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                isAlpha: true,
                 len: [1,300]
             }
         },

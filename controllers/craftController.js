@@ -167,8 +167,8 @@ const craftsController = {
         include: [Models.Craft]
       })
       .then((dbUser) => {
-
-        if (dbUser.dataValues.crafts) {
+        console.log(dbUser.dataValues.Crafts);
+        if (dbUser.dataValues.Crafts.length > 0) {
           let userCrafts = dbUser.dataValues.Crafts;
           craftList.forEach((listElem, index) => {
             for (var i = 0; i < userCrafts.length; i++) {
