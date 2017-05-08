@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    //image materialize feature
+    $('.materialboxed').materialbox();
+    //initialize tabs
+    $('ul.tabs').tabs();
     //initialize modal
     $('.modal').modal();
     // Initialize collapse button

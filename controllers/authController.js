@@ -111,8 +111,14 @@ const authController = {
             include: [Models.Craft] //include all user's crafts
         })
         .then(function (dbUser) {
+          console.log(dbUser)
+          if(dbUser.dataValues.Crafts.length < 1) {
+            userData.newbie = true;
+          }
           //fetching activity data
           craftsController.fetchGoalActivity(dbUser.dataValues.address, function(activityData) {
+            console.log("=====activity data!!!======")
+            console.log(activityData)
             userData.basicInfo = dbUser.dataValues;
             userData.activity = activityData;
             res.render('user-home', {

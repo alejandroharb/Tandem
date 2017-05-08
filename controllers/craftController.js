@@ -353,6 +353,7 @@ const craftsController = {
   fetchGoalActivity: (address, cb) => {
     //use geocode function with callback to find city synchronously
     return helpers.findCity(null, address, (city) => {
+      console.log("=========city here boya========= " + city);
       Models.Activity.findAll({
           where: {
             city: city
