@@ -78,7 +78,7 @@ const craftsController = {
               }
 
               function gatherDistData(index) {
-                
+
                 var destination = dbCraft[index].dataValues.User.address;
                 var username = dbCraft[index].dataValues.user_name;
                 var name = dbCraft[index].dataValues.User.first_name + " " + dbCraft[index].dataValues.User.last_name;
@@ -167,25 +167,35 @@ const craftsController = {
         include: [Models.Craft]
       })
       .then((dbUser) => {
-        let userCrafts = dbUser.dataValues.Crafts;
-        craftList.forEach((listElem, index) => {
-          for (var i = 0; i < userCrafts.length; i++) {
-            let userCraft = userCrafts[i].dataValues.craft;
-            if (userCraft === listElem) {
-              break;
-            } else {
-              if (i == userCrafts.length - 1) {
-                craftDisplayList.push(listElem);
-              }
-            }
 
-          }
-        })
-        dataPackage.crafts = craftDisplayList;
-        res.render("partials/craftOptionsPartial", {
-          data: dataPackage,
-          layout: false
-        });
+        if (dbUser.dataValues.crafts) {
+          let userCrafts = dbUser.dataValues.Crafts;
+          craftList.forEach((listElem, index) => {
+            for (var i = 0; i < userCrafts.length; i++) {
+              let userCraft = userCrafts[i].dataValues.craft;
+              if (userCraft === listElem) {
+                break;
+              } else {
+                if (i == userCrafts.length - 1) {
+                  craftDisplayList.push(listElem);
+                }
+              }
+
+            }
+          })
+          dataPackage.crafts = craftDisplayList;
+          res.render("partials/craftOptionsPartial", {
+            data: dataPackage,
+            layout: false
+          });
+        } else {
+          dataPackage.crafts = craftList;
+          res.render("partials/craftOptionsPartial", {
+            data: dataPackage,
+            layout: false
+          });
+        }
+
       });
 
   },
@@ -305,7 +315,7 @@ const craftsController = {
             }
           }).then(() => {
             craftsController.fetchCraftStuff(null, null, user, craft, function (data) {
-              
+
               //build response package
               let responsePackage = new helpers.GoalPackage(false, false, data.total_goals, data.goals_accomplished);
               //inform client
