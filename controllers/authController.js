@@ -114,6 +114,9 @@ const authController = {
           console.log(dbUser)
           if(dbUser.dataValues.Crafts.length < 1) {
             userData.newbie = true;
+            userData.displayMenuOptions = false;
+          } else {
+            userData.displayMenuOptions = true;
           }
           //fetching activity data
           craftsController.fetchGoalActivity(dbUser.dataValues.address, function(activityData) {

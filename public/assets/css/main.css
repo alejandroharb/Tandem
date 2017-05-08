@@ -256,6 +256,16 @@ canvas {
 .instructionalCollapsible .tabs .tab a{
   font-size: 15px;
 }
+.instructional-header{
+  background-color: #ffd54f!important;
+}
+.instructionalCollapsible .tabs .tab a{
+  color: #FFC107;
+}
+.instructionalCollapsible .tabs .tab a:hover, .tabs .tab a.active{
+  background-color: rgba(96, 125, 139, 0.51);
+  color: #ffd54f;
+}
 
 .tight-top-spacing{
     margin-bottom: 0;

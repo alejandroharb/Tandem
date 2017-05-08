@@ -26,17 +26,18 @@ let display_Craft_Add_Modal = (craft) => {
 
 }
 
-let handle_Add_Craft_Submit = (e) => {
+let handle_Add_Craft_Submit = (e, craft) => {
     e.preventDefault();
     //collect data
-    
+
     let years = parseInt($('#YearsExperience').val());
     let rating = parseInt($('input[name="rating"]:checked').val());
-    let craft = $('#craft').val();
+    // let craft = $('#craft').val();
     let clientPostData = {
         year_experience: years,
         experience_rating: rating
     }
+
     let url = '/api/home/choices/' + craft + '/' + user;
     //AJAX POST
     $.post(url, clientPostData, function (response) {
@@ -312,25 +313,49 @@ let create_Goal_Modal = (craft) => {
   });
 }
 
-let set_goal = (e) => {
+let set_goal = (e, craft) => {
   e.preventDefault();
-
+  let now = moment(new Date).format();
+  console.log("right now: " + now);
+  var date;
   let goalDate = moment($('#goalDate').val()).format();
+  let dateRadio = $('input[name="deadline"]:checked').val();
   let goalHours = $('#goalHours').val();
-  let craft = $('#craft').val();
-  let data = {
-    date: goalDate,
-    hours: goalHours,
-    craft: craft
+  let goalCraft = craft;
+  console.log(goalDate + " and radio: " + dateRadio);
+  if(goalDate !== 'Invalid date' || dateRadio !== undefined) {
+    if(dateRadio) {
+      if(dateRadio == '1-day'){
+        date = moment(now).add(1,'days').format();
+        console.log(date);
+      } else {
+        date = moment(now).add(7,'days').format();
+        console.log(date);
+      }
+    }
+    if(goalDate) {
+      date = goalDate;
+    }
+    
+    let data = {
+      date: date,
+      hours: goalHours,
+      craft: goalCraft
+    }
+    console.log(data)
+    //send ajax request to server
+    $.ajax({
+      method: 'PUT',
+      url: '/api/crafts/set-goal/' + craft + '/' + user,
+      data:data
+    }).then( () => {
+      Materialize.toast("Saved", 3000, 'themeToast');
+      displayStats(craft);
+    });
+  } else {
+    alert("Oop! You forgot to enter a deadline.")
   }
-  $.ajax({
-    method: 'PUT',
-    url: '/api/crafts/set-goal/' + craft + '/' + user,
-    data:data
-  }).then( () => {
-    Materialize.toast("Saved", 3000, 'themeToast');
-    displayStats(craft);
-  });
+
 }
 
 // ==== after user chooses avatar -> route to home page ===

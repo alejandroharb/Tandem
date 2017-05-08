@@ -70,7 +70,7 @@
 				<ul class="collapsible popout" data-collapsible="accordion">
 					{{#if info.newbie}}
 						<li>
-							<div class="collapsible-header active"><i class="material-icons">info_outline</i><span class="fontCollapsible">How-To</span></div>
+							<div class="collapsible-header instructional-header active"><i class="material-icons">info_outline</i><span class="fontCollapsible">How-To</span></div>
 							<!-- ==chart body== -->
 							<div class="collapsible-body instructionalCollapsible">
 								<div class="row">
@@ -151,22 +151,6 @@
 	<ul id="slide-out" class="side-nav">
 		<li class="no-padding">
 			<h2 class="logo">Tandem</h2>
-			<!-- === Match Feature === -->
-			<ul class="collapsible collapsible-accordion">
-				<li>
-					<a class="collapsible-header"><i class="material-icons">supervisor_account</i> Match</a>
-					<div class="collapsible-body">
-						<h5>Practice with Others!</h5>
-						<p>We match you according to:</p>
-						<ul>
-							<li><i class="material-icons">color_lens</i> craft</li>
-							<li><i class="material-icons">assessment</i> Experience Level</li>
-							<li><i class="material-icons">location_on</i> Location</li>
-						</ul>
-						<a id="getMatchedBtn" class="btn waves-effect waves-light matchBtn hoverable theme-color-primary">Match</a>
-					</div>
-				</li>
-			</ul>
 			<ul class="collapsible collapsible-accordion">
 				<li>
 					<a class="collapsible-header"><i class="material-icons">playlist_add</i> Add a Craft</a>
@@ -176,38 +160,56 @@
 					</div>
 				</li>
 			</ul>
-			<!-- === Save Hours === -->
-			<ul class="collapsible collapsible-accordion">
-				<li>
-					<a class="collapsible-header"><i class="material-icons">library_add</i> Hours</a>
-					<div class="collapsible-body">
-						<h5>Track Your Hours!</h5>
-						<ul>
-							{{#each info.basicInfo.Crafts}}
-								<li>
-									<a class="btn waves-effect waves-light theme-color-primary" onClick="create_Score_Modal('{{this.craft}}')"> {{this.craft}}</a></li>
-				        </li>
-				      {{/each}}
-				    </ul>
-				  </div>
-		    </li>
-		  </ul>
-      <!-- === Set a Goal=== -->
-      <ul class="collapsible collapsible-accordion">
-				<li>
-					<a class="collapsible-header"><i class="material-icons">library_add</i> Set Goal</a>
-					<div class="collapsible-body">
-						<h5>Set a Goal!</h5>
-						<ul>
-							{{#each info.basicInfo.Crafts}}
-								<li>
-									<a class="btn waves-effect waves-light theme-color-primary" onClick="create_Goal_Modal('{{this.craft}}')"> {{this.craft}}</a></li>
-				        </li>
-				      {{/each}}
-				    </ul>
-				  </div>
-		    </li>
-		  </ul>
+			{{#if info.displayMenuOptions}}
+				<!-- === Save Hours === -->
+				<ul class="collapsible collapsible-accordion">
+					<li>
+						<a class="collapsible-header"><i class="material-icons">library_add</i> Hours</a>
+						<div class="collapsible-body">
+							<h5>Track Your Hours!</h5>
+							<ul>
+								{{#each info.basicInfo.Crafts}}
+									<li>
+										<a class="btn waves-effect waves-light theme-color-primary" onClick="create_Score_Modal('{{this.craft}}')"> {{this.craft}}</a></li>
+					        </li>
+					      {{/each}}
+					    </ul>
+					  </div>
+			    </li>
+			  </ul>
+	      <!-- === Set a Goal=== -->
+	      <ul class="collapsible collapsible-accordion">
+					<li>
+						<a class="collapsible-header"><i class="material-icons">library_add</i> Set Goal</a>
+						<div class="collapsible-body">
+							<h5>Set a Goal!</h5>
+							<ul>
+								{{#each info.basicInfo.Crafts}}
+									<li>
+										<a class="btn waves-effect waves-light theme-color-primary" onClick="create_Goal_Modal('{{this.craft}}')"> {{this.craft}}</a></li>
+					        </li>
+					      {{/each}}
+					    </ul>
+					  </div>
+			    </li>
+			  </ul>
+				<!-- === Match Feature === -->
+				<ul class="collapsible collapsible-accordion">
+					<li>
+						<a class="collapsible-header"><i class="material-icons">supervisor_account</i> Match</a>
+						<div class="collapsible-body">
+							<h5>Practice with Others!</h5>
+							<p>We match you according to:</p>
+							<ul>
+								<li><i class="material-icons">color_lens</i> craft</li>
+								<li><i class="material-icons">assessment</i> Experience Level</li>
+								<li><i class="material-icons">location_on</i> Location</li>
+							</ul>
+							<a id="getMatchedBtn" class="btn waves-effect waves-light matchBtn hoverable theme-color-primary">Match</a>
+						</div>
+					</li>
+				</ul>
+			{{/if}}
 			<!-- == Nav Settings === -->
 			<ul class="collapsible collapsible-accordion">
 				<li>
