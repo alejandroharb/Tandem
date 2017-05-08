@@ -31,9 +31,26 @@ $(document).ready(function () {
             //open modal
             $('#setCraftModal').modal('open');
         });
-        
+
     });
     //on load, display first craft available
     $('.craft-0').click();
+    // var images = [];
+    // function preload() {
+    //     for (var i = 0; i < arguments.length; i++) {
+    //         images[i] = new Image();
+    //         images[i].src = preload.arguments[i];
+    //     }
+    // }
+    //
+    // //-- usage --//
+    // preload(
+    //     "/assets/img/crafts/chess.svg",
+    //     "/assets/img/crafts/golf.svg",
+    //     "/assets/img/crafts/guitar.svg",
+    //     "/assets/img/crafts/photography.svg",
+    //     "/assets/img/crafts/spanish.svg",
+    //     "/assets/img/crafts/tennis.svg"
+    // )
 
 });
