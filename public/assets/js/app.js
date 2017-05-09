@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var user = document.getElementById('user_name').getAttribute('data-user');
     //image materialize feature
     $('.materialboxed').materialbox();
     //initialize tabs

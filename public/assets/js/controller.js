@@ -56,7 +56,7 @@ function ScoreDataPackage (craft, dateArr, scoreArr, scoreCummArr) {
   this.scoresCumm = scoreCummArr;
 }
 
-let getChartData = async (user) => {
+let getChartData = (user) => {
     let dataArr = [];
     var ref = database.ref("Scores/Users/" + user);
     return ref.once('value').then(function (snapshot) {
