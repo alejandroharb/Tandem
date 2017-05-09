@@ -324,6 +324,9 @@ let set_goal = (e, craft) => {
   let goalCraft = craft;
   console.log(goalDate + " and radio: " + dateRadio);
   if(goalDate !== 'Invalid date' || dateRadio !== undefined) {
+    if(goalDate) {
+      date = goalDate;
+    }
     if(dateRadio) {
       if(dateRadio == '1-day'){
         date = moment(now).add(1,'days').format();
@@ -333,10 +336,7 @@ let set_goal = (e, craft) => {
         console.log(date);
       }
     }
-    if(goalDate) {
-      date = goalDate;
-    }
-    
+
     let data = {
       date: date,
       hours: goalHours,
