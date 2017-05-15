@@ -167,8 +167,8 @@ const craftsController = {
         include: [Models.Craft]
       })
       .then((dbUser) => {
-
-        if (dbUser.dataValues.crafts) {
+        console.log(dbUser.dataValues.Crafts);
+        if (dbUser.dataValues.Crafts.length > 0) {
           let userCrafts = dbUser.dataValues.Crafts;
           craftList.forEach((listElem, index) => {
             for (var i = 0; i < userCrafts.length; i++) {
@@ -353,6 +353,7 @@ const craftsController = {
   fetchGoalActivity: (address, cb) => {
     //use geocode function with callback to find city synchronously
     return helpers.findCity(null, address, (city) => {
+      console.log("=========city here boya========= " + city);
       Models.Activity.findAll({
           where: {
             city: city

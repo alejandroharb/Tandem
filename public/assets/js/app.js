@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    var user = document.getElementById('user_name').getAttribute('data-user');
+    //image materialize feature
+    $('.materialboxed').materialbox();
+    //initialize tabs
+    $('ul.tabs').tabs();
     //initialize modal
     $('.modal').modal();
     // Initialize collapse button
@@ -31,9 +36,26 @@ $(document).ready(function () {
             //open modal
             $('#setCraftModal').modal('open');
         });
-        
+
     });
     //on load, display first craft available
     $('.craft-0').click();
+    // var images = [];
+    // function preload() {
+    //     for (var i = 0; i < arguments.length; i++) {
+    //         images[i] = new Image();
+    //         images[i].src = preload.arguments[i];
+    //     }
+    // }
+    //
+    // //-- usage --//
+    // preload(
+    //     "/assets/img/crafts/chess.svg",
+    //     "/assets/img/crafts/golf.svg",
+    //     "/assets/img/crafts/guitar.svg",
+    //     "/assets/img/crafts/photography.svg",
+    //     "/assets/img/crafts/spanish.svg",
+    //     "/assets/img/crafts/tennis.svg"
+    // )
 
 });

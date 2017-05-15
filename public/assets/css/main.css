@@ -59,6 +59,11 @@ body{
   border-radius: 6px;
   text-align: center;
 }
+.activity-wrapper .subtitle{
+  font-size: 12px;
+  color: #757575;
+  margin-top: 0;
+}
 .craftView {
   background-color: #eceff1;
   text-align: center;
@@ -69,6 +74,7 @@ body{
   cursor: pointer;
 }
 .collection-header {
+  margin-bottom: 3px;
   padding:0 5px;
   font-family: 'Merriweather', serif!important;
   font-size: 1.6rem;
@@ -204,6 +210,7 @@ canvas {
   background-color:#FAFAFA;
   max-height: 380px;
   border-radius: 6px;
+  width:100%;
 }
 
 .golfChartDiv canvas {
@@ -240,6 +247,26 @@ canvas {
     margin:0 auto;
     width:100%;
 }
+.instructionalCollapsible{
+  background-color: #FAFAFA;
+}
+.instructionalCollapsible img{
+  width:100%;
+}
+.instructionalCollapsible .tabs .tab a{
+  font-size: 15px;
+}
+.instructional-header{
+  background-color: #ffd54f!important;
+}
+.instructionalCollapsible .tabs .tab a{
+  color: #FFC107;
+}
+.instructionalCollapsible .tabs .tab a:hover, .tabs .tab a.active{
+  background-color: rgba(96, 125, 139, 0.51);
+  color: #ffd54f;
+}
+
 .tight-top-spacing{
     margin-bottom: 0;
 }
