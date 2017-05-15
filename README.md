@@ -9,7 +9,7 @@ A tool for connecting with other's wanting to practice together.
 ### Create Account or Sign in
 
 ### Menu
-[alt text](https://github.com/alejandroharb/Tandem/blob/master/public/assets/img/instructional/instruction-menu.png "Menu Bar")
+![alt text](https://github.com/alejandroharb/Tandem/blob/master/public/assets/img/instructional/instruction-menu.png "Menu Bar")
 ### Contains options like:
 ⋅⋅* Choose a Craft (A skill or thing to be dedicated to)
 ⋅⋅* Log Hours invested in a Craft
